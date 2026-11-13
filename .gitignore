@@ -1,0 +1,8 @@
+.env
+.env.*
+.mcp.json
+*.bak
+node_modules/
+vendor/
+.DS_Store
+Thumbs.db
