@@ -1,0 +1,272 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/* ─────────────────────────────────────────────────────────────
+   PowerChampions brand tokens. Change colours here only.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* Brand palette (exact, from the brief) */
+  --pc-gold: #eaa607;
+  --pc-orange: #f57500;
+  --pc-ink: #101010;
+  --pc-ink-2: #141414;
+  --pc-heading: #333333;
+  --pc-body: #666666;
+  --pc-mist: #f5f5f5;
+  --pc-navy: #002155;
+  --pc-white: #ffffff;
+
+  /* Derived (transparencies of the palette above, not new colours) */
+  --pc-gold-soft: rgb(234 166 7 / 0.14);
+  --pc-gold-line: rgb(234 166 7 / 0.35);
+  --pc-glass: rgb(255 255 255 / 0.04);
+  --pc-glass-strong: rgb(255 255 255 / 0.07);
+  --pc-hairline: rgb(255 255 255 / 0.1);
+  --pc-on-dark: rgb(255 255 255 / 0.72); /* body text on ink: ~10:1 */
+  --pc-on-dark-muted: rgb(255 255 255 / 0.55); /* ~6:1 */
+
+  --pc-glow: 0 0 0 1px rgb(234 166 7 / 0.55), 0 10px 40px -6px rgb(234 166 7 / 0.55);
+  --pc-glow-soft: 0 0 0 1px rgb(234 166 7 / 0.3), 0 18px 60px -20px rgb(234 166 7 / 0.45);
+
+  --pc-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --pc-header-h: 4.5rem;
+}
+
+@theme inline {
+  --font-sans: var(--font-exo), ui-sans-serif, system-ui, sans-serif;
+
+  --color-gold: var(--pc-gold);
+  --color-orange: var(--pc-orange);
+  --color-ink: var(--pc-ink);
+  --color-ink-2: var(--pc-ink-2);
+  --color-heading: var(--pc-heading);
+  --color-body: var(--pc-body);
+  --color-mist: var(--pc-mist);
+  --color-navy: var(--pc-navy);
+  --color-on-dark: var(--pc-on-dark);
+  --color-on-dark-muted: var(--pc-on-dark-muted);
+  --color-hairline: var(--pc-hairline);
+
+  --shadow-glow: var(--pc-glow);
+  --shadow-glow-soft: var(--pc-glow-soft);
+  --ease-out-expo: var(--pc-ease-out);
+
+  /* Fluid type scale: 375px → 1440px */
+  --text-display: clamp(2.5rem, 1.6rem + 3.9vw, 5.25rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.02em;
+  --text-h1: clamp(2.125rem, 1.6rem + 2.3vw, 3.75rem);
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h2: clamp(1.75rem, 1.4rem + 1.5vw, 2.75rem);
+  --text-h2--line-height: 1.12;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h3: clamp(1.25rem, 1.12rem + 0.55vw, 1.625rem);
+  --text-h3--line-height: 1.25;
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-lead--line-height: 1.65;
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.22em;
+
+  --animate-marquee: pc-marquee var(--marquee-duration, 40s) linear infinite;
+  --animate-grid-drift: pc-grid-drift 24s linear infinite;
+  --animate-energy: pc-energy var(--energy-duration, 6s) linear infinite;
+  --animate-pulse-dot: pc-pulse-dot 2.4s var(--pc-ease-out) infinite;
+  --animate-pulse-ring: pc-pulse-ring 2.4s var(--pc-ease-out) infinite;
+  --animate-panel-in: pc-panel-in 0.28s var(--pc-ease-out) both;
+  --animate-menu-in: pc-menu-in 0.6s var(--pc-ease-out) both;
+  --animate-word-in: pc-word-in 0.9s var(--pc-ease-out) both;
+  --animate-fade-up: pc-fade-up 0.9s var(--pc-ease-out) both;
+  --animate-hero-settle: pc-hero-settle 2.4s var(--pc-ease-out) both;
+  --animate-scroll-cue: pc-scroll-cue 2.2s var(--pc-ease-out) infinite;
+}
+
+@keyframes pc-marquee {
+  to { transform: translate3d(calc(-50% - var(--marquee-gap, 3rem) / 2), 0, 0); }
+}
+@keyframes pc-grid-drift {
+  /* transform only: composited on the GPU, no repaints. Moves exactly one pattern repeat, so it loops seamlessly. */
+  to { transform: translate3d(var(--grid-size, 256px), var(--grid-size, 256px), 0); }
+}
+@keyframes pc-energy {
+  to { stroke-dashoffset: var(--energy-offset, -1000); }
+}
+/* Hero: CSS-only so it starts at first paint (JS-driven reveals would delay LCP until hydration).
+   Words start at 1% opacity, not 0: Chrome doesn't count fully transparent text as painted for LCP. */
+@keyframes pc-word-in {
+  /* No blur filter: animating blur on text layers is expensive on low-end phones. */
+  from { opacity: 0.01; transform: translate3d(0, 0.55em, 0) skewY(4deg); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pc-fade-up {
+  from { opacity: 0.01; transform: translate3d(0, 18px, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pc-hero-settle {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+/* Header dropdown / mega-menu entrance, and the mobile menu's staggered rows (CSS only, no Motion). */
+@keyframes pc-panel-in {
+  from { opacity: 0; transform: translate3d(0, -8px, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pc-menu-in {
+  from { opacity: 0.01; transform: translate3d(-24px, 0, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pc-pulse-ring {
+  0% { transform: scale(0.85); opacity: 0.8; }
+  80%, 100% { transform: scale(1.45); opacity: 0; }
+}
+@keyframes pc-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes pc-scroll-cue {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45% { transform: scaleY(1); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+@keyframes pc-pulse-dot {
+  0% { transform: scale(1); opacity: 0.75; }
+  70%, 100% { transform: scale(3.2); opacity: 0; }
+}
+
+/* ─────────────────────────── Base ─────────────────────────── */
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--pc-header-h) + 1rem);
+  }
+  body {
+    background: var(--pc-ink);
+    color: var(--pc-on-dark);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: var(--pc-white);
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--pc-gold); color: var(--pc-ink); }
+
+  /* One consistent, visible focus ring everywhere (gold on dark, navy on light) */
+  :focus-visible {
+    outline: 2px solid var(--pc-gold);
+    outline-offset: 3px;
+    border-radius: 0;
+  }
+  [data-tone="light"] :focus-visible { outline-color: var(--pc-navy); }
+}
+
+/* Light sections flip text colours via a data attribute, so components don't need tone props for copy. */
+@layer components {
+  [data-tone="light"] { color: var(--pc-body); }
+  [data-tone="light"] :where(h1, h2, h3, h4, h5, h6) { color: var(--pc-heading); }
+  [data-tone="light"] :where(a:not([class])) { color: var(--pc-navy); }
+
+  /* "Critical Power"-style gold glow. Gold text is only allowed on dark backgrounds. */
+  .text-glow {
+    color: var(--pc-gold);
+    text-shadow: 0 0 24px rgb(234 166 7 / 0.45), 0 0 64px rgb(245 117 0 / 0.25);
+  }
+  /* Line icons re-draw themselves when their card is hovered (paths use pathLength="1"). */
+  .group\/card:hover .pc-icon-draw :where(path, circle) {
+    stroke-dasharray: 1;
+    animation: pc-draw 0.9s var(--pc-ease-out) both;
+  }
+  .group\/card:hover .pc-icon-draw :where(path, circle):nth-child(2) { animation-delay: 0.12s; }
+  .group\/card:hover .pc-icon-draw :where(path, circle):nth-child(3) { animation-delay: 0.24s; }
+  .group\/card:hover .pc-icon-draw :where(path, circle):nth-child(4) { animation-delay: 0.36s; }
+
+  /* Locations: hovering/focusing a location card enlarges its map marker (no JS, CSS :has). */
+  #locations:has([data-loc="gvl"]:is(:hover, :focus-visible)) [data-marker="gvl"] .pc-marker-dot,
+  #locations:has([data-loc="cola"]:is(:hover, :focus-visible)) [data-marker="cola"] .pc-marker-dot,
+  #locations:has([data-loc="atl"]:is(:hover, :focus-visible)) [data-marker="atl"] .pc-marker-dot {
+    transform: scale(1.8);
+  }
+
+  /* Long-form copy (legal pages, service detail). Works on dark and light tones. */
+  .prose-pc { font-size: 1rem; line-height: 1.75; }
+  .prose-pc > * + * { margin-top: 1.1em; }
+  .prose-pc h2 { margin-top: 2.2em; font-size: var(--text-h3); line-height: 1.25; }
+  .prose-pc h3, .prose-pc h4, .prose-pc h5, .prose-pc h6 { margin-top: 1.8em; font-size: 1.125rem; line-height: 1.35; }
+  .prose-pc :is(h2, h3, h4, h5, h6) + * { margin-top: 0.6em; }
+  .prose-pc > :first-child { margin-top: 0; }
+  .prose-pc ul { display: grid; gap: 0.55em; padding-left: 0; list-style: none; }
+  .prose-pc li { position: relative; padding-left: 1.5em; }
+  .prose-pc li::before {
+    content: ""; position: absolute; left: 0.15em; top: 0.72em; width: 0.45em; height: 0.45em;
+    transform: rotate(45deg); background: var(--pc-gold);
+  }
+  .prose-pc a { color: var(--pc-gold); text-decoration: underline; text-underline-offset: 3px; }
+  .prose-pc strong { color: var(--pc-white); font-weight: 700; }
+  [data-tone="light"] .prose-pc a { color: var(--pc-navy); }
+  [data-tone="light"] .prose-pc strong { color: var(--pc-heading); }
+
+  .text-gradient-gold {
+    background: linear-gradient(100deg, var(--pc-gold) 10%, #ffd36b 45%, var(--pc-orange) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Decorative animations wait for <AnimateWhenVisible> to mark them active (idle after load + on screen).
+   Targets a marker class, not `*`: a universal key selector is tested against every element on the page. */
+[data-decor]:not([data-active]) .decor-anim {
+  animation-play-state: paused !important;
+}
+
+/* Scroll reveals (components/ui/reveal-on-scroll.tsx + components/reveal-controller.tsx).
+   Only hidden once JS has set `reveal-ready`, so no-JS visitors and crawlers always see content. */
+[data-reveal]:not([data-reveal-group]),
+[data-reveal-group] > [data-reveal-item] {
+  transition:
+    opacity 0.8s var(--pc-ease-out),
+    transform 0.8s var(--pc-ease-out);
+}
+[data-reveal]:not([data-reveal-group]) { transition-delay: var(--reveal-delay, 0s); }
+.reveal-ready [data-reveal]:not([data-reveal-group]):not([data-revealed]),
+.reveal-ready [data-reveal-group]:not([data-revealed]) > [data-reveal-item] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y, 28px), 0);
+}
+[data-reveal-group] > [data-reveal-item]:nth-child(2) { transition-delay: calc(var(--reveal-stagger, 0.1s) * 1); }
+[data-reveal-group] > [data-reveal-item]:nth-child(3) { transition-delay: calc(var(--reveal-stagger, 0.1s) * 2); }
+[data-reveal-group] > [data-reveal-item]:nth-child(4) { transition-delay: calc(var(--reveal-stagger, 0.1s) * 3); }
+[data-reveal-group] > [data-reveal-item]:nth-child(5) { transition-delay: calc(var(--reveal-stagger, 0.1s) * 4); }
+[data-reveal-group] > [data-reveal-item]:nth-child(6) { transition-delay: calc(var(--reveal-stagger, 0.1s) * 5); }
+[data-reveal-group] > [data-reveal-item]:nth-child(7) { transition-delay: calc(var(--reveal-stagger, 0.1s) * 6); }
+[data-reveal-group] > [data-reveal-item]:nth-child(n + 8) { transition-delay: calc(var(--reveal-stagger, 0.1s) * 7); }
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready [data-reveal]:not([data-reveal-group]):not([data-revealed]),
+  .reveal-ready [data-reveal-group]:not([data-revealed]) > [data-reveal-item] {
+    transform: none;
+  }
+}
+
+/* Below-the-fold sections skip style, layout and paint until they approach the viewport.
+   `auto` in contain-intrinsic-size remembers each section's real height once rendered (stable scrollbar). */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1000px;
+}
+
+/* ───────────────── Reduced motion: kill decorative motion ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
