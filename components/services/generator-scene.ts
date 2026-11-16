@@ -382,9 +382,11 @@ export function buildGenerator(dot: THREE.Texture, renderer: THREE.WebGLRenderer
 
     // Camera: slow swing around the front three-quarter view, plus pointer parallax.
     const a = 0.86 + Math.sin(t * 0.11) * 0.3 + px * 0.22;
-    const R = 12.2;
-    camera.position.set(Math.cos(a) * R, 3.9 - py * 1.1, Math.sin(a) * R);
-    camera.lookAt(-0.2, 1.5, 0.2);
+    // In a framed stage (homepage showcase, narrower than the hero) the camera sits closer and centres the set.
+    const stage = camera.aspect < 1.7;
+    const R = stage ? 9.6 : 12.2;
+    camera.position.set(Math.cos(a) * R, (stage ? 3.4 : 3.9) - py * 1.1, Math.sin(a) * R);
+    camera.lookAt(stage ? -0.1 : -0.2, stage ? 0.95 : 1.5, 0.2);
   };
 
   return {

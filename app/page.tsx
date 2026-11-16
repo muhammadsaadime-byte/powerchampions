@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CtaBand } from "@/components/home/cta-band";
+import { GeneratorShowcase } from "@/components/home/generator-showcase";
 import { Hero } from "@/components/home/hero";
 import { Locations } from "@/components/home/locations";
 import { Network } from "@/components/home/network";
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
  * fallback ever shows; the boundaries let React hydrate section by section and yield to the browser
  * in between (selective hydration), instead of one long main-thread task. Keeps mobile TBT low.
  */
-const sections = [Hero, TrustBar, Values, Network, Services, Locations, Testimonials, CtaBand];
+const sections = [Hero, TrustBar, Values, Network, GeneratorShowcase, Services, Locations, Testimonials, CtaBand];
 
 export default function Home() {
   return (
