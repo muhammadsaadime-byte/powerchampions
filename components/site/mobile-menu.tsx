@@ -73,7 +73,7 @@ function MenuContent({ pathname, onClose }: { pathname: string; onClose: () => v
 
       <div className="flex h-[var(--pc-header-h)] shrink-0 items-center justify-between px-4 sm:px-6">
         <Link href="/" onClick={onClose} aria-label="PowerChampions home">
-          <Image src={logo} alt="PowerChampions" className="h-9 w-auto sm:h-10" />
+          <Image src={logo} alt="PowerChampions" className="h-11 w-auto sm:h-12" />
         </Link>
         {/* First focusable element after the logo, so Escape/Enter closes quickly from the keyboard. */}
         <button

@@ -20,7 +20,7 @@
   --pc-gold-soft: rgb(234 166 7 / 0.14);
   --pc-gold-line: rgb(234 166 7 / 0.35);
   --pc-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --pc-header-h: 4.5rem;
+  --pc-header-h: 5rem;
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -457,3 +457,11 @@
 @media (min-width: 640px) {
   .pc-hsform[data-variant="card"]:has(.hs-form-frame) { padding: 1.5rem; }
 }
+
+/* 2D stand-ins under a three.js scene (components/services/power-scene.tsx) fade out once it is up. */
+.pc-scene-fallback { transition: opacity 1.2s ease-out; }
+[data-scene-ready] > .pc-scene-fallback,
+[data-scene-ready] .pc-scene-fallback { opacity: 0; }
+/* Homepage hero: the photo steps back a little once the 3D energy field is running. */
+.pc-hero-photo { transition: opacity 1.6s ease-out; }
+[data-scene-ready] > .pc-hero-photo { opacity: 0.6; }

@@ -67,7 +67,7 @@ export function SiteFooter() {
           {/* Brand */}
           <div className="lg:col-span-4">
             <Link href="/" aria-label="PowerChampions home" className="inline-block">
-              <Image src={logo} alt="PowerChampions" className="h-14 w-auto" />
+              <Image src={logo} alt="PowerChampions" className="h-16 w-auto sm:h-20" />
             </Link>
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-on-dark">
               PowerChampions is redefining industrial critical power through servant leadership, integrity, and a trusted national network of

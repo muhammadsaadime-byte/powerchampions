@@ -33,7 +33,7 @@ function Underline({ active }: { active: boolean }) {
   );
 }
 
-const linkText = "relative py-1 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-fg/85 transition-colors duration-300 hover:text-fg";
+const linkText = "relative whitespace-nowrap py-1 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-fg/85 transition-colors duration-300 hover:text-fg";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -122,7 +122,7 @@ export function SiteHeader() {
 
         <div className="mx-auto flex h-[var(--pc-header-h)] w-full max-w-[1520px] items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
           <Link href="/" aria-label="PowerChampions home" className="shrink-0">
-            <Image src={logo} alt="PowerChampions" priority className="h-9 w-auto sm:h-10" />
+            <Image src={logo} alt="PowerChampions" priority className="h-11 w-auto sm:h-12 2xl:h-14" />
           </Link>
 
           <nav ref={navRef} aria-label="Main" className="hidden xl:block">
@@ -260,11 +260,11 @@ export function SiteHeader() {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center gap-3">
             <ThemeToggle />
             {/* Visibility lives on the wrapper: Button's own inline-flex would override `hidden`. */}
             <div className="hidden sm:block">
-              <Button href={NAV_CTA.href} size="sm">
+              <Button href={NAV_CTA.href} size="sm" className="whitespace-nowrap">
                 {NAV_CTA.label}
               </Button>
             </div>

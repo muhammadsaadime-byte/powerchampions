@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button, Container, EnergyLines, GridBackground } from "@/components/ui";
 import { AnimateWhenVisible } from "@/components/ui/animate-when-visible";
+import { PowerScene } from "@/components/services/power-scene";
 import heroPhoto from "@/public/images/site/technicians-battery-training-asta-workshop.jpg";
 import foxBadge from "@/public/images/site/as-seen-on-fox-carolina.jpg";
 
@@ -31,7 +32,7 @@ export function Hero() {
   return (
     <section aria-labelledby="hero-title" data-scheme="dark" className="relative isolate flex min-h-svh flex-col overflow-hidden bg-page">
       {/* Photo: settles from a slight zoom once (no continuous motion). */}
-      <div className="absolute inset-0 -z-30 overflow-hidden">
+      <div className="pc-hero-photo absolute inset-0 -z-30 overflow-hidden">
         <Image
           src={heroPhoto}
           alt="An American Skilled Trades Academy instructor shows PowerChampions technicians how to test commercial generator batteries during a training workshop"
@@ -50,7 +51,8 @@ export function Hero() {
         aria-hidden
         className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgb(16_16_16/0.88)_0%,rgb(16_16_16/0.78)_35%,rgb(16_16_16/0.9)_70%,#101010_100%)] md:bg-[linear-gradient(90deg,rgb(16_16_16/0.96)_0%,rgb(16_16_16/0.84)_38%,rgb(16_16_16/0.45)_70%,rgb(16_16_16/0.3)_100%)]"
       />
-      <div aria-hidden className="absolute inset-x-0 bottom-0 -z-20 h-1/3 bg-gradient-to-b from-transparent to-page" />
+      {/* Ink floor under the lower half: the 3D energy field glows on it, and the badges stay legible. */}
+      <div aria-hidden className="absolute inset-x-0 bottom-0 -z-20 h-1/2 bg-gradient-to-b from-transparent via-ink/70 to-page" />
       <div
         aria-hidden
         className="absolute -left-1/4 top-[30svh] -z-20 size-[70vmax] rounded-full bg-[radial-gradient(closest-side,rgb(234_166_7/0.12),transparent)]"
@@ -58,9 +60,11 @@ export function Hero() {
       <GridBackground fade="center" glow={false} />
       {/* Sized to the viewport, not the content: font swap can change the section height,
           which would re-centre the traces and register as layout shift. */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-svh">
+      <div aria-hidden className="pc-scene-fallback pointer-events-none absolute inset-x-0 top-0 -z-10 h-svh">
         <EnergyLines intensity={0.9} />
       </div>
+      {/* three.js energy field: the national network as linked beacons on a rippling holographic floor. */}
+      <PowerScene variant="field" className="absolute inset-x-0 bottom-0 -z-10 h-[78svh] opacity-70 md:opacity-100" />
 
       <Container size="wide" className="flex flex-1 flex-col justify-center pb-14 pt-[calc(var(--pc-header-h)+2.5rem)] md:pb-12">
         <div className="max-w-[60rem]">

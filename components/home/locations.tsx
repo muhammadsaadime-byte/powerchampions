@@ -1,5 +1,6 @@
 import { Button, RevealGroup, RevealItem, RevealOnScroll, Section, SectionHeading } from "@/components/ui";
 import { AnimateWhenVisible } from "@/components/ui/animate-when-visible";
+import { PowerScene } from "@/components/services/power-scene";
 import { MAP_H, MAP_W, UsDotMap, project } from "./us-dot-map";
 
 /** Live locations page (content/locations.md). Coordinates are the street addresses below. */
@@ -110,10 +111,10 @@ export function NetworkMap() {
   return (
     <figure className="relative">
       <AnimateWhenVisible className="relative aspect-[49.2/28]">
-        <UsDotMap />
+        <UsDotMap className="pc-scene-fallback" />
 
         {/* Gold links between the three depots */}
-        <svg aria-hidden viewBox={`-1 -1 ${MAP_W + 2} ${MAP_H + 2}`} className="absolute inset-0 h-full w-full">
+        <svg aria-hidden viewBox={`-1 -1 ${MAP_W + 2} ${MAP_H + 2}`} className="pc-scene-fallback absolute inset-0 h-full w-full">
           <polyline
             points={[pts[2], pts[0], pts[1], pts[2]].map((p) => `${p.x},${p.y}`).join(" ")}
             fill="rgb(234 166 7 / 0.06)"
@@ -128,13 +129,16 @@ export function NetworkMap() {
           <span
             key={l.id}
             data-marker={l.id}
-            className="pc-marker absolute flex size-0 items-center justify-center"
+            className="pc-marker pc-scene-fallback absolute flex size-0 items-center justify-center"
             style={pos(l.lat, l.lon)}
           >
             <span aria-hidden className="decor-anim absolute size-3 animate-pulse-dot rounded-full bg-gold/70" />
             <span aria-hidden className="pc-marker-dot absolute size-3 rounded-full border-2 border-ink bg-gold shadow-[0_0_14px_3px_rgb(234_166_7/0.7)] transition-transform duration-300" />
           </span>
         ))}
+
+        {/* three.js version of the map (beacons, flowing links); the SVG above stays as fallback. */}
+        <PowerScene variant="map" className="absolute -inset-x-[8%] -inset-y-[18%]" />
 
         {/* HUD readout */}
         <div aria-hidden data-scheme="dark" className="absolute bottom-0 left-0 hidden border-l-2 border-gold bg-ink/90 px-4 py-3 sm:block">

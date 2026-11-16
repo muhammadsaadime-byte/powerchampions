@@ -5,7 +5,7 @@ import { cn } from "@/lib/cn";
  * Each row lists the longitude ranges of land at that latitude (1° grid, hand-traced).
  * All dots are one SVG <path> (round-capped zero-length segments), so ~1,000 dots = 1 DOM node.
  */
-const LAND: Record<number, Array<[number, number]>> = {
+export const LAND: Record<number, Array<[number, number]>> = {
   49: [[-123, -95]],
   48: [[-124, -89], [-69, -67]],
   47: [[-124, -84], [-70, -67]],
@@ -45,7 +45,7 @@ export function project(lat: number, lon: number) {
 }
 
 /** The Southeast (where the network operates today) is drawn brighter. */
-const isSoutheast = (lat: number, lon: number) => lat <= 37 && lat >= 30 && lon >= -91 && lon <= -75;
+export const isSoutheast = (lat: number, lon: number) => lat <= 37 && lat >= 30 && lon >= -91 && lon <= -75;
 
 function dots(filter: (lat: number, lon: number) => boolean) {
   let d = "";

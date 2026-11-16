@@ -30,7 +30,7 @@ export function SmoothScroll() {
     const start = () => {
       if (lenis || media.matches) return;
       const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-      const headerOffset = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--pc-header-h")) || 4.5) * rem;
+      const headerOffset = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--pc-header-h")) || 5) * rem;
       lenis = new Lenis({
         autoRaf: false,
         lerp: 0.12,
