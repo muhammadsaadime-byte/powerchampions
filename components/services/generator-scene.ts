@@ -1,15 +1,15 @@
 /**
  * Realistic diesel generator set for <PowerScene variant="generator"> (Who We Are hero).
  * Modelled procedurally, no model download. What makes it read as real rather than a wireframe:
- * - image-based lighting from a tiny painted studio panorama, so painted steel and the stainless
- *   silencer reflect, ACES tone mapping, and a baked soft contact shadow on a concrete pad.
+ * - image-based lighting from a tiny painted studio panorama, so the painted steel reflects, ACES tone mapping, and a baked soft contact shadow on a concrete pad.
  *   (Measured on Intel HD 530, cold cache: real-time shadow maps cost ~1.6s of main-thread stall on
  *   first load and RoomEnvironment ~0.3s; this setup costs a few tens of ms. Don't reintroduce them.)
  * - rounded sheet-metal panels, separate doors with handles and hinges, intake louvers, a glazed
  *   controller window with a live readout, an open radiator shroud with core, fan and guard,
- *   silencer with exhaust elbow and a rain flap, forklift pockets, lifting eyes, power cables.
- * Sequence: assemble (0–2.4s) → crank (dark start puff, fan spools, controller boots) → running
- * (idle vibration, rain flap chatters, thin exhaust, readout holds 480 V / 60 Hz, cable pulses).
+ *   forklift pockets, lifting eyes, power cables. The roof is clean: the client asked for no exhaust
+ *   stack and no smoke (2026-11-16), so the silencer is assumed internal.
+ * Sequence: assemble (0–2.2s) → crank (kick, fan spools, controller boots) → running
+ * (idle vibration, readout holds 480 V / 60 Hz, cable pulses).
  */
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
@@ -73,7 +73,6 @@ export function buildGenerator(dot: THREE.Texture, renderer: THREE.WebGLRenderer
   const paintDark = new THREE.MeshStandardMaterial({ color: 0x1c1d20, metalness: 0.4, roughness: 0.55 });
   const black = new THREE.MeshStandardMaterial({ color: 0x08090a, metalness: 0.2, roughness: 0.8 });
   const steel = new THREE.MeshStandardMaterial({ color: 0x9a9ea3, metalness: 1, roughness: 0.32 });
-  const stainless = new THREE.MeshStandardMaterial({ color: 0xc4c7cb, metalness: 1, roughness: 0.22 });
   const rubber = new THREE.MeshStandardMaterial({ color: 0x0b0b0c, metalness: 0, roughness: 0.75 });
   const goldPaint = new THREE.MeshStandardMaterial({ color: GOLD, metalness: 0.5, roughness: 0.4 });
   const concrete = new THREE.MeshStandardMaterial({ color: 0x3a3a3a, metalness: 0, roughness: 0.95 });
@@ -122,8 +121,7 @@ export function buildGenerator(dot: THREE.Texture, renderer: THREE.WebGLRenderer
   const sDoorsF = stage(1.05, new THREE.Vector3(0, 0, 1.1));
   const sDoorsB = stage(1.05, new THREE.Vector3(0, 0, -1.1));
   const sRoof = stage(1.4, up);
-  const sExhaust = stage(1.7, up);
-  const stages = [sSkid, sTank, sBody, sDoorsF, sDoorsB, sRoof, sExhaust];
+  const stages = [sSkid, sTank, sBody, sDoorsF, sDoorsB, sRoof];
 
   /* ── Skid with forklift pockets ── */
   sSkid.g.add(at(rbox(L + 0.2, SKID, W, 0.02, paintDark), 0, SKID / 2, 0));
@@ -309,36 +307,6 @@ export function buildGenerator(dot: THREE.Texture, renderer: THREE.WebGLRenderer
       sRoof.g.add(at(eye, x, roofY + 0.11, z));
     }
 
-  /* ── Exhaust: riser → stainless silencer → elbow → stack with rain flap ── */
-  const ez = -0.22;
-  const my = roofY + 0.36;
-  const sil = cyl(0.21, 0.21, 1.5, stainless, 40);
-  sil.rotation.z = Math.PI / 2;
-  sExhaust.g.add(at(sil, 0.25, my, ez));
-  for (const s of [1, -1]) {
-    const cone = cyl(0.21, 0.08, 0.16, stainless, 40);
-    cone.rotation.z = (s * Math.PI) / 2;
-    sExhaust.g.add(at(cone, 0.25 - s * 0.83, my, ez));
-    const band = cyl(0.218, 0.218, 0.035, steel, 40);
-    band.rotation.z = Math.PI / 2;
-    sExhaust.g.add(at(band, 0.25 - s * 0.5, my, ez));
-  }
-  for (const x of [-0.2, 0.7]) sExhaust.g.add(at(box(0.08, 0.2, 0.4, paintDark), x, roofY + 0.13, ez)); // saddles
-  sExhaust.g.add(at(cyl(0.07, 0.07, 0.32, steel), 1.2, roofY + 0.2, ez)); // riser from engine
-  const inlet = cyl(0.07, 0.07, 0.2, steel);
-  inlet.rotation.z = Math.PI / 2;
-  sExhaust.g.add(at(inlet, 1.15, my, ez));
-  const outlet = cyl(0.07, 0.07, 0.22, steel);
-  outlet.rotation.z = Math.PI / 2;
-  sExhaust.g.add(at(outlet, -0.72, my, ez));
-  const stackX = -0.83;
-  const stackTopY = my + 0.72;
-  sExhaust.g.add(at(new THREE.Mesh(new THREE.SphereGeometry(0.075, 20, 14), steel), stackX, my, ez)); // elbow
-  sExhaust.g.add(at(cyl(0.07, 0.07, 0.72, steel), stackX, my + 0.36, ez));
-  const flap = at(new THREE.Group(), stackX - 0.07, stackTopY, ez); // hinge on the rim
-  flap.add(at(cyl(0.08, 0.08, 0.012, steel, 24), 0.075, 0.006, 0));
-  sExhaust.g.add(flap);
-
   /* ── Power cables from the junction box across the pad, with travelling pulses ── */
   const cables = [-0.12, 0, 0.12].map((dx, i) => {
     const x0 = jbx + dx;
@@ -361,14 +329,6 @@ export function buildGenerator(dot: THREE.Texture, renderer: THREE.WebGLRenderer
     return { curve, pulses };
   });
 
-  /* ── Exhaust smoke ── */
-  const PUFFS = 44;
-  const smokeTop = new THREE.Vector3(stackX, PAD + stackTopY + 0.03, ez);
-  const puffs = Array.from({ length: PUFFS }, (_, i) => {
-    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: 0x8c8c8c, transparent: true, opacity: 0, depthWrite: false }));
-    scene.add(s);
-    return { s, seed: i / PUFFS, r: Math.random() };
-  });
   // Faint pad ring: the one stylised "power" cue kept from the earlier version.
   const ring = new THREE.Mesh(
     new THREE.RingGeometry(0.985, 1, 128),
@@ -379,7 +339,7 @@ export function buildGenerator(dot: THREE.Texture, renderer: THREE.WebGLRenderer
   scene.add(ring);
 
   const ease = (x: number) => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3);
-  const START = 2.6;
+  const START = 2.3;
   let fanSpeed = 0;
   let screenClock = 1;
   const update: Update = (t, dt, px, py) => {
@@ -410,20 +370,6 @@ export function buildGenerator(dot: THREE.Texture, renderer: THREE.WebGLRenderer
     const amp = cranking ? 0.012 : run * 0.0035;
     gen.position.set(Math.cos(t * 51) * amp * 0.6, PAD + Math.sin(t * 64) * amp, Math.sin(t * 43) * amp * 0.4);
     gen.rotation.z = Math.sin(t * 38) * amp * 0.25;
-    // Rain flap lifts with exhaust pressure and chatters.
-    flap.rotation.z = run * (0.95 + Math.sin(t * 23) * 0.12 + Math.sin(t * 7.3) * 0.08);
-
-    // Smoke: dark burst on start, then thin grey exhaust bending downwind.
-    const burst = Math.max(0, 1 - Math.abs(t - (START + 0.7)) / 1.1);
-    for (const p of puffs) {
-      const u = (t * 0.5 + p.seed) % 1;
-      const wob = Math.sin(t * 1.1 + p.r * 30) * 0.12 * u;
-      p.s.position.set(smokeTop.x - u * u * 1.5 + wob, smokeTop.y + u * 1.5 + p.r * 0.1, smokeTop.z - u * 0.45 + (p.r - 0.5) * 0.3 * u);
-      p.s.scale.setScalar(0.16 + u * (0.7 + p.r * 0.5));
-      const mat = p.s.material as THREE.SpriteMaterial;
-      mat.opacity = run * Math.sin(Math.min(1, u * 1.15) * Math.PI) * (0.05 + burst * 0.3);
-      mat.color.setScalar(0.55 - burst * 0.4);
-    }
     for (const c of cables)
       for (const p of c.pulses) {
         const u = (t * 0.3 + p.o) % 1;
