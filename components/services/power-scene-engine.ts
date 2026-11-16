@@ -11,6 +11,7 @@
 import * as THREE from "three";
 import { LAND, isSoutheast } from "@/components/home/us-dot-map";
 import { LOCATIONS } from "@/lib/site";
+import { buildGenerator } from "./generator-scene";
 import type { SceneVariant } from "./power-scene";
 
 const GOLD = new THREE.Color("#eaa607");
@@ -39,287 +40,6 @@ type Built = {
   update: (t: number, dt: number, px: number, py: number) => void;
   dispose?: () => void;
 };
-
-/**
- * Industrial diesel generator set, modelled procedurally (no model download): steel skid, fuel-tank base,
- * weatherproof enclosure with gold-edged panels and door seams, intake louvers, radiator grille with the
- * cooling fan spinning behind it, roof muffler and exhaust stack, control panel and lifting eyes.
- * Sequence: parts assemble (0–2.4s) → start-up (fan spools, panel lights, exhaust) → running (idle
- * vibration, heat haze, power pulses travelling out along the output cables and across the floor ring).
- */
-function buildGenerator(dot: THREE.Texture): Built & { stillTime: number; introStart: number } {
-  const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(INK, 14, 34);
-  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
-
-  // Lighting: cool key, warm gold rim and an orange kicker from the radiator side.
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x1a1206, 0.55));
-  const key = new THREE.DirectionalLight(0xffffff, 1.9);
-  key.position.set(-6, 8, 7);
-  scene.add(key);
-  const fill = new THREE.DirectionalLight(0xdfe6ff, 0.55);
-  fill.position.set(7, 3, 6);
-  scene.add(fill);
-  const rim = new THREE.PointLight(GOLD, 14, 18, 1.6);
-  rim.position.set(-3, 5.5, -6);
-  scene.add(rim);
-  const kick = new THREE.PointLight(ORANGE, 18, 10, 1.6);
-  kick.position.set(4.5, 1.4, 2.5);
-  scene.add(kick);
-
-  const steel = new THREE.MeshStandardMaterial({ color: 0x1d1d1d, metalness: 0.7, roughness: 0.42 });
-  const darkSteel = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.6, roughness: 0.55 });
-  const paint = new THREE.MeshStandardMaterial({ color: 0x242424, metalness: 0.45, roughness: 0.38 });
-  const goldMetal = new THREE.MeshStandardMaterial({ color: GOLD, metalness: 0.85, roughness: 0.28, emissive: GOLD, emissiveIntensity: 0.12 });
-  const edgeMat = new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0.55 });
-  const withEdges = (mesh: THREE.Mesh, opacity = 0.55) => {
-    const e = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry, 20), opacity === 0.55 ? edgeMat : new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity }));
-    mesh.add(e);
-    return mesh;
-  };
-  const box = (w: number, h: number, d: number, mat: THREE.Material) => new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
-
-  const L = 4.4; // length (x)
-  const W = 1.55; // width (z)
-  const gen = new THREE.Group();
-  scene.add(gen);
-
-  // Each assembly stage is a group that drops into place.
-  const stage = (delay: number) => {
-    const g = new THREE.Group();
-    gen.add(g);
-    return { g, delay };
-  };
-  const skid = stage(0);
-  const tank = stage(0.35);
-  const body = stage(0.7);
-  const roof = stage(1.25);
-  const ends = stage(1.0);
-  const stages = [skid, tank, body, ends, roof];
-
-  // Skid: two rails + cross members.
-  for (const z of [-W / 2 + 0.08, W / 2 - 0.08]) {
-    const rail = withEdges(box(L + 0.3, 0.18, 0.16, darkSteel), 0.35);
-    rail.position.set(0, 0.09, z);
-    skid.g.add(rail);
-  }
-  for (const x of [-1.8, -0.6, 0.6, 1.8]) {
-    const cross = box(0.12, 0.1, W - 0.1, darkSteel);
-    cross.position.set(x, 0.12, 0);
-    skid.g.add(cross);
-  }
-  // Fuel-tank base with a gold brand band.
-  const tankMesh = withEdges(box(L, 0.42, W, steel));
-  tankMesh.position.y = 0.39;
-  tank.g.add(tankMesh);
-  for (const z of [W / 2 + 0.002, -W / 2 - 0.002]) {
-    const band = box(L - 0.4, 0.05, 0.004, goldMetal);
-    band.position.set(0, 0.42, z);
-    tank.g.add(band);
-  }
-
-  // Enclosure.
-  const EH = 1.55;
-  const enclosure = withEdges(box(L - 0.1, EH, W - 0.06, paint));
-  enclosure.position.y = 0.6 + EH / 2;
-  body.g.add(enclosure);
-  // Door seams and hinges on both long sides.
-  const seamPts: number[] = [];
-  for (const side of [1, -1])
-    for (const x of [-1.25, -0.15, 0.95]) {
-      const z = side * (W / 2 - 0.03 + 0.004);
-      seamPts.push(x, 0.68, z, x, 0.6 + EH - 0.08, z);
-    }
-  const seamGeo = new THREE.BufferGeometry();
-  seamGeo.setAttribute("position", new THREE.Float32BufferAttribute(seamPts, 3));
-  body.g.add(new THREE.LineSegments(seamGeo, new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0.3 })));
-  // Intake louvers: instanced slats on both sides.
-  const SLATS = 9;
-  const louver = new THREE.InstancedMesh(new THREE.BoxGeometry(0.95, 0.035, 0.07), darkSteel, SLATS * 4);
-  const m4 = new THREE.Matrix4();
-  const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0.55, 0, 0));
-  let li = 0;
-  for (const side of [1, -1])
-    for (const cx of [-0.7, 0.4]) {
-      for (let s = 0; s < SLATS; s++) {
-        m4.compose(new THREE.Vector3(cx, 0.85 + s * 0.12, side * (W / 2 - 0.0)), q, new THREE.Vector3(1, 1, 1));
-        louver.setMatrixAt(li++, m4);
-      }
-    }
-  body.g.add(louver);
-
-  // Radiator end (+x): grille slats with the fan spinning behind them, and an orange glow.
-  const grille = new THREE.Group();
-  grille.position.set(L / 2 - 0.04, 0.6 + EH / 2, 0);
-  for (let s = 0; s < 11; s++) {
-    const slat = box(0.05, 0.022, W - 0.3, darkSteel);
-    slat.position.y = -0.6 + s * 0.12;
-    grille.add(slat);
-  }
-  const frame = withEdges(box(0.06, EH - 0.2, W - 0.22, new THREE.MeshBasicMaterial({ color: 0x050505, transparent: true, opacity: 0.0 })));
-  grille.add(frame);
-  const fan = new THREE.Group();
-  fan.position.x = -0.22;
-  const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.12, 20), goldMetal);
-  hub.rotation.z = Math.PI / 2;
-  fan.add(hub);
-  for (let b = 0; b < 7; b++) {
-    const blade = box(0.02, 0.56, 0.16, goldMetal);
-    blade.position.y = 0.32;
-    blade.rotation.y = 0.5;
-    const arm = new THREE.Group();
-    arm.rotation.x = (b / 7) * Math.PI * 2;
-    arm.add(blade);
-    fan.add(arm);
-  }
-  grille.add(fan);
-  const radGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: ORANGE, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
-  radGlow.scale.setScalar(2.6);
-  radGlow.position.x = 0.15;
-  grille.add(radGlow);
-  ends.g.add(grille);
-
-  // Control end (-x): panel door, glowing screen and status LEDs.
-  const panel = withEdges(box(0.05, 0.7, 0.9, darkSteel), 0.6);
-  panel.position.set(-L / 2 + 0.03, 1.45, 0);
-  ends.g.add(panel);
-  const screenMat = new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: 0.0 });
-  const screen = new THREE.Mesh(new THREE.PlaneGeometry(0.42, 0.24), screenMat);
-  screen.rotation.y = -Math.PI / 2;
-  screen.position.set(-L / 2 - 0.001, 1.58, 0.12);
-  ends.g.add(screen);
-  const leds = [0, 1, 2, 3].map((i) => {
-    const mat = new THREE.MeshBasicMaterial({ color: i === 3 ? 0x2bd16f : GOLD });
-    const led = new THREE.Mesh(new THREE.SphereGeometry(0.03, 10, 10), mat);
-    led.position.set(-L / 2 - 0.01, 1.3, -0.3 + i * 0.12);
-    ends.g.add(led);
-    return mat;
-  });
-
-  // Roof: muffler on saddles, exhaust stack with rain cap, lifting eyes at the corners.
-  const roofY = 0.6 + EH;
-  const muffler = withEdges(new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 1.5, 28), steel), 0.4);
-  muffler.rotation.z = Math.PI / 2;
-  muffler.position.set(-0.4, roofY + 0.32, -0.15);
-  roof.g.add(muffler);
-  for (const x of [-0.95, 0.15]) {
-    const saddle = box(0.1, 0.16, 0.5, darkSteel);
-    saddle.position.set(x, roofY + 0.08, -0.15);
-    roof.g.add(saddle);
-  }
-  const stack = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.085, 0.75, 20), steel);
-  stack.position.set(0.45, roofY + 0.6, -0.15);
-  roof.g.add(stack);
-  const capMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.03, 20), goldMetal);
-  capMesh.position.set(0.45, roofY + 1.0, -0.15);
-  roof.g.add(capMesh);
-  for (const x of [-L / 2 + 0.25, L / 2 - 0.25])
-    for (const z of [-W / 2 + 0.2, W / 2 - 0.2]) {
-      const eye = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.022, 8, 20), goldMetal);
-      eye.position.set(x, roofY + 0.08, z);
-      roof.g.add(eye);
-    }
-
-  // Exhaust heat: soft sprites rising from the stack.
-  const PUFFS = 16;
-  const puffs = Array.from({ length: PUFFS }, (_, i) => {
-    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: 0x9c8a70, transparent: true, opacity: 0, depthWrite: false }));
-    scene.add(s);
-    return { s, seed: i / PUFFS };
-  });
-  const stackTop = new THREE.Vector3(0.45, roofY + 1.03, -0.15);
-
-  // Floor: polar platform, expanding power rings, and output cables with travelling pulses.
-  const floor = new THREE.PolarGridHelper(5.2, 16, 6, 96, GOLD, GOLD);
-  (floor.material as THREE.Material).transparent = true;
-  (floor.material as THREE.Material).opacity = 0.14;
-  scene.add(floor);
-  const rings = [0, 1, 2].map((i) => {
-    const ring = new THREE.Mesh(
-      new THREE.RingGeometry(0.98, 1, 96),
-      new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: 0, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false }),
-    );
-    ring.rotation.x = -Math.PI / 2;
-    ring.position.y = 0.01;
-    scene.add(ring);
-    return { ring, phase: i / 3 };
-  });
-  const cables = [
-    // Output cables leave from the viewer-facing side and run out across the floor to the "grid".
-    [new THREE.Vector3(-1.4, 0.3, W / 2), new THREE.Vector3(-2.6, 0.02, 3.2), new THREE.Vector3(-6.2, 0.02, 4.6)],
-    [new THREE.Vector3(-0.6, 0.3, W / 2), new THREE.Vector3(-0.4, 0.02, 3.6), new THREE.Vector3(0.6, 0.02, 7)],
-    [new THREE.Vector3(-L / 2, 0.3, 0), new THREE.Vector3(-3.8, 0.02, -0.4), new THREE.Vector3(-7, 0.02, -2.2)],
-  ].map(([a, b, c]) => {
-    const curve = new THREE.QuadraticBezierCurve3(a, b, c);
-    const line = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints(curve.getPoints(40)),
-      new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }),
-    );
-    scene.add(line);
-    const pulses = [0, 0.33, 0.66].map((o) => {
-      const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: GOLD, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
-      s.scale.setScalar(0.38);
-      scene.add(s);
-      return { s, o };
-    });
-    return { curve, line, pulses };
-  });
-
-  const ease = (x: number) => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3);
-  let fanSpeed = 0;
-  return {
-    scene,
-    camera,
-    stillTime: 9,
-    introStart: 0,
-    update(t, dt, px, py) {
-      // 1. Assembly: each stage drops 2.2 units and fades in over 0.7s after its delay.
-      for (const st of stages) {
-        const k = ease((t - st.delay) / 0.7);
-        st.g.position.y = (1 - k) * 2.2;
-        st.g.visible = k > 0.001;
-      }
-      // 2. Start-up from t=2.4, fully running by ~4s.
-      const run = ease((t - 2.4) / 1.6);
-      fanSpeed += ((run * 22) - fanSpeed) * Math.min(1, dt * 2);
-      fan.rotation.x += fanSpeed * dt;
-      (radGlow.material as THREE.SpriteMaterial).opacity = run * (0.55 + Math.sin(t * 6) * 0.06);
-      screenMat.opacity = run * (0.75 + Math.sin(t * 2.5) * 0.08);
-      leds.forEach((m, i) => m.color.set(run > 0.2 && (i === 3 || Math.sin(t * 3 + i * 1.7) > -0.2) ? (i === 3 ? 0x2bd16f : GOLD) : 0x222222));
-      // Idle vibration once running (tiny, high frequency).
-      gen.position.y = run * Math.sin(t * 60) * 0.006;
-      gen.position.x = run * Math.cos(t * 47) * 0.003;
-
-      for (const p of puffs) {
-        const u = (t * 0.45 + p.seed) % 1;
-        // Plume bends away with the wind and widens as it rises, so it reads as exhaust, not a beam.
-        const wob = Math.sin(t * 0.9 + p.seed * 17) * 0.18 * u;
-        p.s.position.set(stackTop.x - u * u * 1.6 + wob, stackTop.y + u * 1.7, stackTop.z - u * 0.5 + Math.cos(p.seed * 11) * 0.2 * u);
-        p.s.scale.setScalar(0.35 + u * 1.6);
-        (p.s.material as THREE.SpriteMaterial).opacity = run * Math.sin(u * Math.PI) * 0.14;
-      }
-      for (const r of rings) {
-        const u = (t * 0.45 + r.phase) % 1;
-        r.ring.scale.setScalar(2.6 + u * 2.8);
-        (r.ring.material as THREE.MeshBasicMaterial).opacity = run * (1 - u) * 0.5;
-      }
-      for (const c of cables) {
-        (c.line.material as THREE.LineBasicMaterial).opacity = run * 0.55;
-        for (const p of c.pulses) {
-          const u = (t * 0.35 + p.o) % 1;
-          p.s.position.copy(c.curve.getPoint(u));
-          (p.s.material as THREE.SpriteMaterial).opacity = run * Math.sin(u * Math.PI);
-        }
-      }
-
-      // Camera: slow swing around a three-quarter view, plus pointer parallax.
-      const a = 0.72 + Math.sin(t * 0.12) * 0.32 + px * 0.25;
-      const R = 13;
-      camera.position.set(Math.cos(a) * R, 4.2 - py * 1.2, Math.sin(a) * R);
-      camera.lookAt(-0.4, 1.15, 0.4);
-    },
-  };
-}
 
 /** A raised arc between two points, for network links. */
 function arc(a: THREE.Vector3, b: THREE.Vector3, lift: number) {
@@ -787,6 +507,13 @@ export function mountScene(host: HTMLElement, variant: SceneVariant, onReady: ()
   canvas.style.display = "block";
   host.appendChild(canvas);
 
+  // Software WebGL (no GPU: some VMs, remote desktops, headless browsers) renders every frame on the
+  // CPU. There the scene shows one finished still frame, like prefers-reduced-motion, with lite materials.
+  const gl = renderer.getContext();
+  const dbg = gl.getExtension("WEBGL_debug_renderer_info");
+  const gpu = dbg ? String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) : "";
+  const software = /swiftshader|llvmpipe|software|basic render/i.test(gpu);
+
   const dot = dotTexture();
   const built: Built & { stillTime?: number; introStart?: number } =
     variant === "core"
@@ -796,7 +523,7 @@ export function mountScene(host: HTMLElement, variant: SceneVariant, onReady: ()
         : variant === "field"
           ? buildField(dot)
           : variant === "generator"
-            ? buildGenerator(dot)
+            ? buildGenerator(dot, renderer, software)
             : buildMap(dot, host);
   const { scene, camera, update } = built;
 
@@ -820,19 +547,37 @@ export function mountScene(host: HTMLElement, variant: SceneVariant, onReady: ()
   };
   window.addEventListener("pointermove", onPointer, { passive: true });
 
-  const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const still = software || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let visible = true;
   let raf = 0;
   let last = performance.now();
   let t = 0;
+  let cost = 0;
+  let frames = 0;
+  let degraded = false;
 
   const frame = (now: number) => {
     raf = 0;
     const dt = Math.min((now - last) / 1000, 0.05);
     last = now;
     t += dt;
+    const c0 = performance.now();
     update(t, dt, px, py);
     renderer.render(scene, camera);
+    // Adaptive quality: if frames are slow on this device, drop to 1x resolution and no shadows (once).
+    cost += (performance.now() - c0 - cost) * 0.1;
+    if (!degraded && ++frames > 40 && cost > 18) {
+      degraded = true;
+      renderer.setPixelRatio(1);
+      resize();
+      if (renderer.shadowMap.enabled) {
+        renderer.shadowMap.enabled = false;
+        scene.traverse((o) => {
+          const m = (o as THREE.Mesh).material as THREE.Material | undefined;
+          if (m && !Array.isArray(m)) m.needsUpdate = true;
+        });
+      }
+    }
     if (visible && !document.hidden) raf = requestAnimationFrame(frame);
   };
   const kick = () => {
