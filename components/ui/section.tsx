@@ -17,8 +17,8 @@ type Props = Omit<React.HTMLAttributes<HTMLElement>, "children"> & {
 };
 
 const tones: Record<Tone, string> = {
-  ink: "bg-ink",
-  "ink-2": "bg-ink-2",
+  ink: "bg-page",
+  "ink-2": "bg-surface",
   mist: "bg-mist",
   white: "bg-white",
 };

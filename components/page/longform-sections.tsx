@@ -36,22 +36,22 @@ export function LongformSections({ parts }: { parts: Part[] }) {
           key={p.title}
           aria-labelledby={`lf-${i}`}
           data-tone="dark"
-          className={cn("cv-auto relative isolate border-t border-hairline py-16 sm:py-20 lg:py-24", i % 2 ? "bg-ink-2" : "bg-ink")}
+          className={cn("cv-auto relative isolate border-t border-hairline py-16 sm:py-20 lg:py-24", i % 2 ? "bg-surface" : "bg-page")}
         >
           <div className="mx-auto grid w-full max-w-[1520px] gap-8 px-4 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8">
             <RevealOnScroll className="lg:col-span-5">
               <div className="lg:sticky lg:top-[calc(var(--pc-header-h)+2rem)]">
-                <p className="mb-4 inline-flex items-center gap-3 text-eyebrow font-bold uppercase text-gold">
+                <p className="mb-4 inline-flex items-center gap-3 text-eyebrow font-bold uppercase text-accent">
                   <span aria-hidden className="h-px w-8 bg-gradient-to-r from-gold to-orange" />
                   {p.eyebrow ?? String(i + 1).padStart(2, "0")}
                 </p>
-                <h2 id={`lf-${i}`} className="text-h2 font-bold text-white">
+                <h2 id={`lf-${i}`} className="text-h2 font-bold text-fg">
                   {p.title}
                 </h2>
               </div>
             </RevealOnScroll>
             <RevealOnScroll delay={0.08} className="lg:col-span-7">
-              <Markdown md={p.body} headingOffset={-1} className="text-on-dark [&_h3]:text-white [&_h4]:text-white" />
+              <Markdown md={p.body} headingOffset={-1} className="text-on-dark [&_h3]:text-fg [&_h4]:text-fg" />
             </RevealOnScroll>
           </div>
         </section>

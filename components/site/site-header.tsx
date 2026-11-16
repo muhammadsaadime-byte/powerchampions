@@ -9,6 +9,7 @@ import { cn } from "@/lib/cn";
 import { NAV, NAV_CTA, isActive, isItemActive, type NavItem } from "@/lib/nav";
 import logo from "@/public/images/site/powerchampions-logo-trim.svg";
 import { MobileMenu } from "./mobile-menu";
+import { ThemeToggle } from "./theme-toggle";
 
 
 function Chevron({ open }: { open: boolean }) {
@@ -32,7 +33,7 @@ function Underline({ active }: { active: boolean }) {
   );
 }
 
-const linkText = "relative py-1 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-white/85 transition-colors duration-300 hover:text-white";
+const linkText = "relative py-1 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-fg/85 transition-colors duration-300 hover:text-fg";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -104,6 +105,7 @@ export function SiteHeader() {
     <>
       <div ref={sentinel} aria-hidden className="pointer-events-none absolute left-0 top-0 h-6 w-px" />
       <header
+        data-scheme="dark"
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out-expo",
           solid
@@ -147,7 +149,7 @@ export function SiteHeader() {
                     aria-controls={panelId(item.label)}
                     aria-label={item.kind === "dropdown" && item.href ? `${item.label} submenu` : undefined}
                     onClick={() => setOpen(isOpen ? null : item.label)}
-                    className={cn(linkText, "inline-flex items-center gap-1.5", isOpen && "text-white")}
+                    className={cn(linkText, "inline-flex items-center gap-1.5", isOpen && "text-fg")}
                   >
                     {!(item.kind === "dropdown" && item.href) && item.label}
                     <Chevron open={isOpen} />
@@ -171,15 +173,15 @@ export function SiteHeader() {
 
                     {item.kind === "dropdown" && isOpen && (
                           <div id={panelId(item.label)} className="animate-panel-in absolute left-1/2 top-full w-72 -translate-x-1/2 pt-5">
-                            <ul className="border border-hairline bg-ink-2/95 p-2 shadow-[0_30px_80px_-30px_rgb(0_0_0/0.9)] backdrop-blur-xl">
+                            <ul className="border border-hairline bg-surface/95 p-2 shadow-[0_30px_80px_-30px_rgb(0_0_0/0.9)] backdrop-blur-xl">
                               {item.children.map((c) => (
                                 <li key={c.href}>
                                   <Link
                                     href={c.href}
                                     onClick={() => setOpen(null)}
-                                    className="group/item block border-l-2 border-transparent px-4 py-3 transition-colors hover:border-gold hover:bg-white/[0.04]"
+                                    className="group/item block border-l-2 border-transparent px-4 py-3 transition-colors hover:border-gold hover:bg-fg/[0.04]"
                                   >
-                                    <span className="block text-sm font-bold text-white group-hover/item:text-gold">{c.label}</span>
+                                    <span className="block text-sm font-bold text-fg group-hover/item:text-accent">{c.label}</span>
                                     {c.description && <span className="mt-1 block text-xs leading-relaxed text-on-dark-muted">{c.description}</span>}
                                   </Link>
                                 </li>
@@ -191,7 +193,7 @@ export function SiteHeader() {
                     {item.kind === "mega" && isOpen && mega && (
                           // Positioned against the fixed header, so it spans the full width under the bar.
                           <div id={panelId(item.label)} className="animate-panel-in absolute inset-x-0 top-full">
-                            <div className="border-b border-t border-hairline bg-ink-2/95 shadow-[0_40px_100px_-30px_rgb(0_0_0/0.95)] backdrop-blur-xl">
+                            <div className="border-b border-t border-hairline bg-surface/95 shadow-[0_40px_100px_-30px_rgb(0_0_0/0.95)] backdrop-blur-xl">
                               <div className="mx-auto grid max-w-[1320px] gap-8 px-8 py-10 lg:grid-cols-[1fr_1fr_0.8fr]">
                                 {mega.services.map((s) => (
                                   <Link
@@ -209,18 +211,18 @@ export function SiteHeader() {
                                       className="-z-20 object-cover opacity-55 transition-[transform,opacity] duration-700 ease-out-expo group-hover/mega:scale-105 group-hover/mega:opacity-70"
                                     />
                                     <span aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/75 to-ink/10" />
-                                    <span className="flex items-center gap-2 text-h3 font-bold text-white">
+                                    <span className="flex items-center gap-2 text-h3 font-bold text-fg">
                                       {s.label}
-                                      <span aria-hidden className="text-gold transition-transform duration-300 group-hover/mega:translate-x-1">→</span>
+                                      <span aria-hidden className="text-accent transition-transform duration-300 group-hover/mega:translate-x-1">→</span>
                                     </span>
                                     <span className="mt-2 text-sm leading-relaxed text-on-dark">{s.description}</span>
                                     {isActive(pathname, s.href) && (
-                                      <span className="absolute left-6 top-6 text-eyebrow font-bold uppercase text-gold">You are here</span>
+                                      <span className="absolute left-6 top-6 text-eyebrow font-bold uppercase text-accent">You are here</span>
                                     )}
                                   </Link>
                                 ))}
                                 <div className="flex flex-col">
-                                  <p className="mb-4 text-eyebrow font-bold uppercase text-gold">Service locations</p>
+                                  <p className="mb-4 text-eyebrow font-bold uppercase text-accent">Service locations</p>
                                   <ul className="flex flex-col divide-y divide-hairline border-y border-hairline">
                                     {mega.locations.map((l) => (
                                       <li key={l.href}>
@@ -228,13 +230,13 @@ export function SiteHeader() {
                                           href={l.href}
                                           target="_blank"
                                           rel="noopener noreferrer"
-                                          className="group/loc flex items-center justify-between gap-4 py-4 transition-colors hover:text-gold"
+                                          className="group/loc flex items-center justify-between gap-4 py-4 transition-colors hover:text-accent"
                                         >
                                           <span>
-                                            <span className="block text-sm font-bold text-white group-hover/loc:text-gold">{l.label}</span>
+                                            <span className="block text-sm font-bold text-fg group-hover/loc:text-accent">{l.label}</span>
                                             <span className="text-xs text-on-dark-muted">{l.place}</span>
                                           </span>
-                                          <span aria-hidden className="text-gold">↗</span>
+                                          <span aria-hidden className="text-accent">↗</span>
                                           <span className="sr-only">(opens in a new tab)</span>
                                         </a>
                                       </li>
@@ -243,7 +245,7 @@ export function SiteHeader() {
                                   <Link
                                     href="/locations"
                                     onClick={() => setOpen(null)}
-                                    className="mt-5 text-sm font-bold uppercase tracking-[0.12em] text-white hover:text-gold"
+                                    className="mt-5 text-sm font-bold uppercase tracking-[0.12em] text-fg hover:text-accent"
                                   >
                                     All locations →
                                   </Link>
@@ -259,6 +261,7 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             {/* Visibility lives on the wrapper: Button's own inline-flex would override `hidden`. */}
             <div className="hidden sm:block">
               <Button href={NAV_CTA.href} size="sm">

@@ -67,7 +67,7 @@ const SE = dots(isSoutheast);
 export function UsDotMap({ className }: { className?: string }) {
   return (
     <svg aria-hidden viewBox={`-1 -1 ${MAP_W + 2} ${MAP_H + 2}`} className={cn("h-full w-full", className)}>
-      <path d={ALL} stroke="rgb(255 255 255 / 0.16)" strokeWidth="0.42" strokeLinecap="round" />
+      <path d={ALL} stroke="currentColor" className="text-fg/15" strokeWidth="0.42" strokeLinecap="round" />
       <path d={SE} stroke="rgb(234 166 7 / 0.55)" strokeWidth="0.46" strokeLinecap="round" />
     </svg>
   );

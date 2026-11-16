@@ -20,7 +20,7 @@ export function SectionHeading({ eyebrow, title, intro, align = "left", as: Tag 
   return (
     <div className={cn("flex max-w-3xl flex-col gap-5", center && "mx-auto items-center text-center", className)}>
       {eyebrow && (
-        <p className="inline-flex items-center gap-3 text-eyebrow font-bold uppercase text-gold in-data-[tone=light]:text-heading">
+        <p className="inline-flex items-center gap-3 text-eyebrow font-bold uppercase text-accent in-data-[tone=light]:text-heading">
           <span aria-hidden className="h-px w-8 bg-gradient-to-r from-gold to-orange" />
           {eyebrow}
           {center && <span aria-hidden className="h-px w-8 bg-gradient-to-l from-gold to-orange" />}

@@ -80,7 +80,7 @@ export default function LocationsPage() {
                 <RevealOnScroll>
                   <article
                     aria-labelledby={`${l.id}-title`}
-                    className="grid overflow-hidden border border-hairline bg-ink-2 transition-[border-color,box-shadow] duration-500 hover:border-gold/40 hover:shadow-glow-soft md:grid-cols-2"
+                    className="grid overflow-hidden border border-hairline bg-surface transition-[border-color,box-shadow] duration-500 hover:border-gold/40 hover:shadow-glow-soft md:grid-cols-2"
                   >
                     <div className={`relative aspect-[16/10] md:aspect-auto md:min-h-[22rem] ${i % 2 ? "md:order-2" : ""}`}>
                       <Image src={d.image} alt={d.alt} fill sizes="(min-width: 768px) 50vw, 100vw" quality={65} className="object-cover"
@@ -88,22 +88,22 @@ export default function LocationsPage() {
                         {...(i === 0 ? { loading: "eager" as const, fetchPriority: "high" as const } : {})}
                       />
                       <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent" />
-                      <span className="absolute left-5 top-5 bg-ink/85 px-3 py-1.5 text-xs font-bold tracking-[0.2em] text-gold">0{i + 1}</span>
+                      <span data-scheme="dark" className="absolute left-5 top-5 bg-ink/85 px-3 py-1.5 text-xs font-bold tracking-[0.2em] text-accent">0{i + 1}</span>
                     </div>
                     <div className="flex flex-col justify-center p-6 sm:p-10">
                       <p className="text-xs font-bold uppercase tracking-[0.16em] text-on-dark-muted">{l.city}</p>
-                      <h2 id={`${l.id}-title`} className="mt-2 text-h2 font-bold text-white">
+                      <h2 id={`${l.id}-title`} className="mt-2 text-h2 font-bold text-fg">
                         {l.name}
                       </h2>
                       <p className="mt-4 leading-relaxed text-on-dark">{d.body}</p>
                       <dl className="mt-6 grid gap-4 border-y border-hairline py-5 text-sm sm:grid-cols-2">
                         <div>
-                          <dt className="text-xs font-bold uppercase tracking-[0.14em] text-gold">Address</dt>
-                          <dd className="mt-1 text-white">{address}</dd>
+                          <dt className="text-xs font-bold uppercase tracking-[0.14em] text-accent">Address</dt>
+                          <dd className="mt-1 text-fg">{address}</dd>
                         </div>
                         <div>
-                          <dt className="text-xs font-bold uppercase tracking-[0.14em] text-gold">Online</dt>
-                          <dd className="mt-1 text-white">{d.site}</dd>
+                          <dt className="text-xs font-bold uppercase tracking-[0.14em] text-accent">Online</dt>
+                          <dd className="mt-1 text-fg">{d.site}</dd>
                         </div>
                       </dl>
                       <div className="mt-6 flex flex-wrap gap-4">

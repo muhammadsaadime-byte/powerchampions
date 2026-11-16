@@ -37,7 +37,7 @@ export default function ContactPage() {
 
           <aside className="space-y-10 lg:col-span-5" aria-label="Other ways to reach us">
             <div>
-              <p className="mb-5 text-eyebrow font-bold uppercase text-gold">Service locations</p>
+              <p className="mb-5 text-eyebrow font-bold uppercase text-accent">Service locations</p>
               <ul className="space-y-3">
                 {LOCATIONS.map((l) => (
                   <li key={l.id}>
@@ -45,10 +45,10 @@ export default function ContactPage() {
                       href={l.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group/loc block border border-hairline bg-white/[0.02] p-5 transition-[border-color,box-shadow] hover:border-gold/50 hover:shadow-glow-soft"
+                      className="group/loc block border border-hairline bg-fg/[0.02] p-5 transition-[border-color,box-shadow] hover:border-gold/50 hover:shadow-glow-soft"
                     >
                       <span className="block text-xs font-bold uppercase tracking-[0.16em] text-on-dark-muted">{l.city}</span>
-                      <span className="mt-1 block font-bold text-white group-hover/loc:text-gold">{l.name} ↗</span>
+                      <span className="mt-1 block font-bold text-fg group-hover/loc:text-accent">{l.name} ↗</span>
                       <span className="mt-1 block text-sm text-on-dark">
                         {l.street}, {l.locality}, {l.region} {l.postal}
                       </span>
@@ -59,7 +59,7 @@ export default function ContactPage() {
               </ul>
               <p className="mt-4 text-sm text-on-dark">
                 Need generator service? Contact your local team through the location sites above, or{" "}
-                <Link href="/locations" className="text-gold underline underline-offset-4">
+                <Link href="/locations" className="text-accent underline underline-offset-4">
                   find a location
                 </Link>
                 .
@@ -67,10 +67,10 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <p className="mb-4 text-eyebrow font-bold uppercase text-gold">Selling or partnering?</p>
+              <p className="mb-4 text-eyebrow font-bold uppercase text-accent">Selling or partnering?</p>
               <p className="text-on-dark">
                 For a confidential conversation about your business, use the{" "}
-                <Link href="/partners#inquiry" className="text-gold underline underline-offset-4">
+                <Link href="/partners#inquiry" className="text-accent underline underline-offset-4">
                   market-partner inquiry
                 </Link>
                 .
@@ -78,8 +78,8 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <p className="mb-4 text-eyebrow font-bold uppercase text-gold">Connect with us</p>
-              <a href={SOCIAL.linkedin} target="_blank" rel="noopener noreferrer" className="font-bold text-white hover:text-gold">
+              <p className="mb-4 text-eyebrow font-bold uppercase text-accent">Connect with us</p>
+              <a href={SOCIAL.linkedin} target="_blank" rel="noopener noreferrer" className="font-bold text-fg hover:text-accent">
                 PowerChampions on LinkedIn ↗<span className="sr-only"> (opens in a new tab)</span>
               </a>
             </div>

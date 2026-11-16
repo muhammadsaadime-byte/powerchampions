@@ -37,7 +37,7 @@ export function PageHero({ eyebrow, title, intro, image, imageAlt = "", crumbs, 
     : null;
 
   return (
-    <section className="relative isolate overflow-hidden bg-ink pb-16 pt-[calc(var(--pc-header-h)+3.5rem)] sm:pb-20 lg:pb-28 lg:pt-[calc(var(--pc-header-h)+5rem)]">
+    <section data-scheme="dark" className="relative isolate overflow-hidden bg-page pb-16 pt-[calc(var(--pc-header-h)+3.5rem)] sm:pb-20 lg:pb-28 lg:pt-[calc(var(--pc-header-h)+5rem)]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {photo && (
         <>
@@ -76,13 +76,13 @@ export function PageHero({ eyebrow, title, intro, image, imageAlt = "", crumbs, 
           <ol className="flex flex-wrap items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] text-on-dark-muted">
             {trail.map((c, i) => (
               <li key={c.href} className="flex items-center gap-2">
-                {i > 0 && <span aria-hidden className="text-gold">/</span>}
+                {i > 0 && <span aria-hidden className="text-accent">/</span>}
                 {i < trail.length - 1 ? (
-                  <Link href={c.href} className="hover:text-gold">
+                  <Link href={c.href} className="hover:text-accent">
                     {c.label}
                   </Link>
                 ) : (
-                  <span aria-current="page" className="text-white">
+                  <span aria-current="page" className="text-fg">
                     {c.label}
                   </span>
                 )}
@@ -93,12 +93,12 @@ export function PageHero({ eyebrow, title, intro, image, imageAlt = "", crumbs, 
 
         <div className={cn("max-w-4xl", image && "lg:max-w-3xl")}>
           {eyebrow && (
-            <p className="mb-5 inline-flex animate-fade-up items-center gap-3 text-eyebrow font-bold uppercase text-gold" style={{ animationDelay: "0.1s" }}>
+            <p className="mb-5 inline-flex animate-fade-up items-center gap-3 text-eyebrow font-bold uppercase text-accent" style={{ animationDelay: "0.1s" }}>
               <span aria-hidden className="h-px w-10 bg-gradient-to-r from-gold to-orange" />
               {eyebrow}
             </p>
           )}
-          <h1 className="animate-fade-up text-h1 font-bold text-white" style={{ animationDelay: "0.15s" }}>
+          <h1 className="animate-fade-up text-h1 font-bold text-fg" style={{ animationDelay: "0.15s" }}>
             {title}
           </h1>
           {intro && (

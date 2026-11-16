@@ -19,7 +19,7 @@ function Meta({ p }: { p: Post }) {
       {p.youtubeId && (
         <>
           <span aria-hidden className="size-1 rotate-45 bg-gold" />
-          <span className="text-gold">Video episode</span>
+          <span className="text-accent">Video episode</span>
         </>
       )}
     </p>
@@ -30,9 +30,9 @@ function Card({ p, featured = false }: { p: Post; featured?: boolean }) {
   return (
     <article
       aria-labelledby={`post-${p.slug}`}
-      className={`group/post relative isolate flex h-full flex-col overflow-hidden border border-hairline bg-ink-2 transition-[border-color,box-shadow] duration-500 hover:border-gold/50 hover:shadow-glow-soft ${featured ? "lg:grid lg:grid-cols-2" : ""}`}
+      className={`group/post relative isolate flex h-full flex-col overflow-hidden border border-hairline bg-surface transition-[border-color,box-shadow] duration-500 hover:border-gold/50 hover:shadow-glow-soft ${featured ? "lg:grid lg:grid-cols-2" : ""}`}
     >
-      <div className={`relative overflow-hidden bg-ink ${featured ? "aspect-video lg:aspect-auto lg:min-h-[24rem]" : "aspect-video"}`}>
+      <div className={`relative overflow-hidden bg-page ${featured ? "aspect-video lg:aspect-auto lg:min-h-[24rem]" : "aspect-video"}`}>
         {p.image && (
           <Image
             src={p.image}
@@ -55,14 +55,14 @@ function Card({ p, featured = false }: { p: Post; featured?: boolean }) {
       </div>
       <div className={`flex flex-1 flex-col p-6 ${featured ? "sm:p-10 lg:justify-center" : ""}`}>
         <Meta p={p} />
-        <h2 id={`post-${p.slug}`} className={`mt-3 font-bold text-white ${featured ? "text-h2" : "text-lg leading-snug"}`}>
+        <h2 id={`post-${p.slug}`} className={`mt-3 font-bold text-fg ${featured ? "text-h2" : "text-lg leading-snug"}`}>
           {/* Stretched link: the whole card is clickable, but only one link is announced. */}
-          <a href={href(p)} className="after:absolute after:inset-0 group-hover/post:text-gold">
+          <a href={href(p)} className="after:absolute after:inset-0 group-hover/post:text-accent">
             {p.title}
           </a>
         </h2>
         {p.description && <p className={`mt-3 text-sm leading-relaxed text-on-dark ${featured ? "sm:text-base" : "line-clamp-3"}`}>{p.description}</p>}
-        <span aria-hidden className="mt-auto pt-6 text-sm font-bold uppercase tracking-[0.12em] text-white group-hover/post:text-gold">
+        <span aria-hidden className="mt-auto pt-6 text-sm font-bold uppercase tracking-[0.12em] text-fg group-hover/post:text-accent">
           {p.youtubeId ? "Watch the episode →" : "Read more →"}
         </span>
         {p.youtubeId && (
@@ -70,7 +70,7 @@ function Card({ p, featured = false }: { p: Post; featured?: boolean }) {
             href={`https://www.youtube.com/watch?v=${p.youtubeId}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative z-10 mt-3 self-start text-xs font-medium uppercase tracking-[0.14em] text-on-dark-muted underline-offset-4 hover:text-gold hover:underline"
+            className="relative z-10 mt-3 self-start text-xs font-medium uppercase tracking-[0.14em] text-on-dark-muted underline-offset-4 hover:text-accent hover:underline"
           >
             Open on YouTube ↗<span className="sr-only"> (opens in a new tab)</span>
           </a>

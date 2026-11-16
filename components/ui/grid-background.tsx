@@ -47,7 +47,7 @@ export function GridBackground({ fade = "center", animated = true, glow = true, 
       )}
       <AnimateWhenVisible className="absolute inset-0" style={{ maskImage: masks[fade], WebkitMaskImage: masks[fade] }}>
         {layer(
-          "linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px)",
+          "linear-gradient(to right, var(--pc-grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--pc-grid-line) 1px, transparent 1px)",
           size,
         )}
         {/* Gold intersections every 4 cells give the grid an "engineered" feel. */}

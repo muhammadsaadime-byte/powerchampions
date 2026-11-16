@@ -28,7 +28,7 @@ export function VideoFacade({ src, title, poster, posterAlt, label, sizes = "(mi
   const autoplaySrc = src + (src.includes("?") ? "&" : "?") + "autoplay=true&autoplay=1";
 
   return (
-    <AnimateWhenVisible className={cn("group/video relative isolate aspect-video w-full overflow-hidden border border-hairline bg-ink", className)}>
+    <AnimateWhenVisible data-scheme="dark" className={cn("group/video relative isolate aspect-video w-full overflow-hidden border border-hairline bg-page", className)}>
       {playing ? (
         <iframe
           src={autoplaySrc}
@@ -65,7 +65,7 @@ export function VideoFacade({ src, title, poster, posterAlt, label, sizes = "(mi
           </span>
 
           <span className="absolute inset-x-6 bottom-6 flex items-end justify-between gap-4 sm:inset-x-8 sm:bottom-8">
-            {label && <span className="text-sm font-bold uppercase tracking-[0.16em] text-white">{label}</span>}
+            {label && <span className="text-sm font-bold uppercase tracking-[0.16em] text-fg">{label}</span>}
             <span className="shrink-0 text-xs font-medium uppercase tracking-[0.16em] text-on-dark">Play video</span>
           </span>
           <span className="sr-only">Play: {title}</span>

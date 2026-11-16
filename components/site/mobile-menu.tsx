@@ -47,9 +47,10 @@ export function MobileMenu({ open, onClose, pathname }: Props) {
     <dialog
       ref={ref}
       aria-label="Site menu"
+      data-scheme="dark"
       data-lenis-prevent
       className={cn(
-        "fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto overscroll-contain bg-ink p-0 text-white backdrop:bg-ink/80",
+        "fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto overscroll-contain bg-page p-0 text-fg backdrop:bg-ink/80",
         "opacity-0 transition-[opacity,display,overlay] transition-discrete duration-300 ease-out-expo open:opacity-100 starting:open:opacity-0",
       )}
     >
@@ -93,7 +94,7 @@ function MenuContent({ pathname, onClose }: { pathname: string; onClose: () => v
             const active = isItemActive(pathname, item);
             const rowText = cn(
               "flex w-full items-center justify-between gap-4 py-4 text-left text-[1.75rem] font-bold leading-tight sm:text-[2.25rem]",
-              active ? "text-gold" : "text-white",
+              active ? "text-accent" : "text-fg",
             );
 
             if (item.kind === "link") {
@@ -156,10 +157,10 @@ function MenuContent({ pathname, onClose }: { pathname: string; onClose: () => v
                             href={c.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-between py-2.5 text-lg text-on-dark hover:text-gold"
+                            className="flex items-center justify-between py-2.5 text-lg text-on-dark hover:text-accent"
                           >
                             {c.label}
-                            <span aria-hidden className="text-gold">↗</span>
+                            <span aria-hidden className="text-accent">↗</span>
                             <span className="sr-only">(opens in a new tab)</span>
                           </a>
                         ) : (
@@ -167,7 +168,7 @@ function MenuContent({ pathname, onClose }: { pathname: string; onClose: () => v
                             href={c.href}
                             onClick={onClose}
                             aria-current={isActive(pathname, c.href) ? "page" : undefined}
-                            className={cn("block py-2.5 text-lg hover:text-gold", isActive(pathname, c.href) ? "text-gold" : "text-on-dark")}
+                            className={cn("block py-2.5 text-lg hover:text-accent", isActive(pathname, c.href) ? "text-accent" : "text-on-dark")}
                           >
                             {c.label}
                           </Link>
@@ -189,7 +190,7 @@ function MenuContent({ pathname, onClose }: { pathname: string; onClose: () => v
           <p className="text-lg font-bold">
             Your Power. <span className="text-glow">Our Mission.</span>
           </p>
-          <a href={SOCIAL.linkedin} target="_blank" rel="noopener noreferrer" className="self-start text-sm font-medium uppercase tracking-[0.14em] text-on-dark hover:text-gold">
+          <a href={SOCIAL.linkedin} target="_blank" rel="noopener noreferrer" className="self-start text-sm font-medium uppercase tracking-[0.14em] text-on-dark hover:text-accent">
             LinkedIn ↗<span className="sr-only"> (opens in a new tab)</span>
           </a>
         </div>

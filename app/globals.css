@@ -19,17 +19,76 @@
   /* Derived (transparencies of the palette above, not new colours) */
   --pc-gold-soft: rgb(234 166 7 / 0.14);
   --pc-gold-line: rgb(234 166 7 / 0.35);
+  --pc-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --pc-header-h: 4.5rem;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Themes. Components use the semantic colours (page, surface, fg, on-dark, accent, hairline),
+   never raw ink/white, so one set of classes renders both themes.
+   - Default follows the OS; <html data-theme="light|dark"> (set by the toggle, see theme-script.tsx) overrides it.
+   - [data-scheme="dark"] pins a block dark in both themes (heroes over photos, header, footer, menu).
+   - [data-tone="light"] pins a block light in both themes (CTA band, form cards).
+   ───────────────────────────────────────────────────────────── */
+:root,
+[data-scheme="dark"] {
+  --pc-page: #101010;
+  --pc-surface: #141414;
+  --pc-fg: #ffffff;
+  --pc-accent: #eaa607;
   --pc-glass: rgb(255 255 255 / 0.04);
   --pc-glass-strong: rgb(255 255 255 / 0.07);
   --pc-hairline: rgb(255 255 255 / 0.1);
-  --pc-on-dark: rgb(255 255 255 / 0.72); /* body text on ink: ~10:1 */
+  --pc-on-dark: rgb(255 255 255 / 0.72); /* body text: ~10:1 on ink */
   --pc-on-dark-muted: rgb(255 255 255 / 0.55); /* ~6:1 */
+  --pc-focus: var(--pc-gold);
+  --pc-grid-line: rgb(255 255 255 / 0.06);
+  --pc-text-glow: 0 0 24px rgb(234 166 7 / 0.45), 0 0 64px rgb(245 117 0 / 0.25);
+  color-scheme: dark;
+}
+/* CSS can't share a declaration block between a selector and a media query, so the light values
+   appear twice (here and in the media query below). Keep both blocks identical. */
+:root[data-theme="light"],
+[data-tone="light"] {
+  --pc-page: #ffffff;
+  --pc-surface: #f5f5f5;
+  --pc-fg: #141414;
+  --pc-accent: #8f5b00; /* dark gold: 5.7:1 on white, 5.3:1 on mist (brand gold is 2:1, decoration only) */
+  --pc-glass: rgb(16 16 16 / 0.03);
+  --pc-glass-strong: rgb(16 16 16 / 0.06);
+  --pc-hairline: rgb(16 16 16 / 0.12);
+  --pc-on-dark: #555555; /* 7.5:1 */
+  --pc-on-dark-muted: #666666; /* 5.7:1 */
+  --pc-focus: var(--pc-navy);
+  --pc-grid-line: rgb(16 16 16 / 0.06);
+  --pc-text-glow: none;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --pc-page: #ffffff;
+    --pc-surface: #f5f5f5;
+    --pc-fg: #141414;
+    --pc-accent: #8f5b00;
+    --pc-glass: rgb(16 16 16 / 0.03);
+    --pc-glass-strong: rgb(16 16 16 / 0.06);
+    --pc-hairline: rgb(16 16 16 / 0.12);
+    --pc-on-dark: #555555;
+    --pc-on-dark-muted: #666666;
+    --pc-focus: var(--pc-navy);
+    --pc-grid-line: rgb(16 16 16 / 0.06);
+    --pc-text-glow: none;
+    color-scheme: light;
+  }
+}
+[data-scheme="dark"],
+[data-tone="light"] {
+  color: var(--pc-on-dark);
+}
 
+:root {
   --pc-glow: 0 0 0 1px rgb(234 166 7 / 0.55), 0 10px 40px -6px rgb(234 166 7 / 0.55);
   --pc-glow-soft: 0 0 0 1px rgb(234 166 7 / 0.3), 0 18px 60px -20px rgb(234 166 7 / 0.45);
-
-  --pc-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --pc-header-h: 4.5rem;
 }
 
 @theme inline {
@@ -43,6 +102,11 @@
   --color-body: var(--pc-body);
   --color-mist: var(--pc-mist);
   --color-navy: var(--pc-navy);
+  /* Theme-aware (see Themes above) */
+  --color-page: var(--pc-page);
+  --color-surface: var(--pc-surface);
+  --color-fg: var(--pc-fg);
+  --color-accent: var(--pc-accent);
   --color-on-dark: var(--pc-on-dark);
   --color-on-dark-muted: var(--pc-on-dark-muted);
   --color-hairline: var(--pc-hairline);
@@ -138,12 +202,11 @@
 /* ─────────────────────────── Base ─────────────────────────── */
 @layer base {
   html {
-    color-scheme: dark;
     -webkit-text-size-adjust: 100%;
     scroll-padding-top: calc(var(--pc-header-h) + 1rem);
   }
   body {
-    background: var(--pc-ink);
+    background: var(--pc-page);
     color: var(--pc-on-dark);
     font-family: var(--font-sans);
     font-weight: 400;
@@ -152,7 +215,7 @@
   }
   h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
-    color: var(--pc-white);
+    color: var(--pc-fg);
     text-wrap: balance;
   }
   p { text-wrap: pretty; }
@@ -160,11 +223,10 @@
 
   /* One consistent, visible focus ring everywhere (gold on dark, navy on light) */
   :focus-visible {
-    outline: 2px solid var(--pc-gold);
+    outline: 2px solid var(--pc-focus);
     outline-offset: 3px;
     border-radius: 0;
   }
-  [data-tone="light"] :focus-visible { outline-color: var(--pc-navy); }
 }
 
 /* Light sections flip text colours via a data attribute, so components don't need tone props for copy. */
@@ -175,8 +237,8 @@
 
   /* "Critical Power"-style gold glow. Gold text is only allowed on dark backgrounds. */
   .text-glow {
-    color: var(--pc-gold);
-    text-shadow: 0 0 24px rgb(234 166 7 / 0.45), 0 0 64px rgb(245 117 0 / 0.25);
+    color: var(--pc-accent);
+    text-shadow: var(--pc-text-glow);
   }
   /* Line icons re-draw themselves when their card is hovered (paths use pathLength="1"). */
   .group\/card:hover .pc-icon-draw :where(path, circle) {
@@ -207,8 +269,8 @@
     content: ""; position: absolute; left: 0.15em; top: 0.72em; width: 0.45em; height: 0.45em;
     transform: rotate(45deg); background: var(--pc-gold);
   }
-  .prose-pc a { color: var(--pc-gold); text-decoration: underline; text-underline-offset: 3px; }
-  .prose-pc strong { color: var(--pc-white); font-weight: 700; }
+  .prose-pc a { color: var(--pc-accent); text-decoration: underline; text-underline-offset: 3px; }
+  .prose-pc strong { color: var(--pc-fg); font-weight: 700; }
   [data-tone="light"] .prose-pc a { color: var(--pc-navy); }
   [data-tone="light"] .prose-pc strong { color: var(--pc-heading); }
 
@@ -269,4 +331,17 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Theme toggle icon (components/site/theme-toggle.tsx): show the option you'd switch TO.
+   Keyed off the root theme, not the local block, because the toggle sits in the always-dark header. */
+:root[data-theme="dark"] .pc-to-dark,
+:root[data-theme="light"] .pc-to-light {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .pc-to-dark { display: none; }
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .pc-to-light { display: none; }
 }

@@ -35,7 +35,7 @@ const BRANDS: Brand[] = [
 
 function BrandCard({ brand }: { brand: Brand }) {
   return (
-    <li className="flex w-[19rem] shrink-0 items-center gap-4 border border-hairline bg-white/[0.03] p-3 pr-5">
+    <li className="flex w-[19rem] shrink-0 items-center gap-4 border border-hairline bg-fg/[0.03] p-3 pr-5">
       {"logo" in brand ? (
         <span className="flex size-16 shrink-0 items-center justify-center bg-white p-1.5">
           {/* Decorative: the brand name is written right next to it. */}
@@ -44,13 +44,13 @@ function BrandCard({ brand }: { brand: Brand }) {
       ) : (
         <span
           aria-hidden
-          className="flex size-16 shrink-0 items-center justify-center border border-gold/50 bg-ink text-sm font-bold tracking-[0.08em] text-gold"
+          className="flex size-16 shrink-0 items-center justify-center border border-gold/50 bg-page text-sm font-bold tracking-[0.08em] text-accent"
         >
           {brand.monogram}
         </span>
       )}
       <span className="min-w-0">
-        <span className="line-clamp-2 block text-sm font-bold leading-snug text-white">{brand.name}</span>
+        <span className="line-clamp-2 block text-sm font-bold leading-snug text-fg">{brand.name}</span>
         <span className="mt-0.5 block text-xs leading-snug text-on-dark-muted">{brand.relation}</span>
       </span>
     </li>
@@ -59,7 +59,7 @@ function BrandCard({ brand }: { brand: Brand }) {
 
 export function TrustBar() {
   return (
-    <section id="after-hero" aria-labelledby="trust-title" data-tone="dark" className="relative isolate overflow-hidden bg-ink-2 py-16 sm:py-20">
+    <section id="after-hero" aria-labelledby="trust-title" data-tone="dark" className="relative isolate overflow-hidden bg-surface py-16 sm:py-20">
       <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
       <Container size="wide">
         <h2 id="trust-title" className="sr-only">
@@ -77,7 +77,7 @@ export function TrustBar() {
 
       <div className="mt-14 sm:mt-16">
         <Container size="wide">
-          <p className="mb-5 inline-flex items-center gap-3 text-eyebrow font-bold uppercase text-gold">
+          <p className="mb-5 inline-flex items-center gap-3 text-eyebrow font-bold uppercase text-accent">
             <span aria-hidden className="h-px w-8 bg-gradient-to-r from-gold to-orange" />
             The PowerChampions network
           </p>

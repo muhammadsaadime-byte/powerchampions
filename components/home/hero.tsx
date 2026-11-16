@@ -29,7 +29,7 @@ function Word({ children, i }: { children: string; i: number }) {
 
 export function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="relative isolate flex min-h-svh flex-col overflow-hidden bg-ink">
+    <section aria-labelledby="hero-title" data-scheme="dark" className="relative isolate flex min-h-svh flex-col overflow-hidden bg-page">
       {/* Photo: settles from a slight zoom once (no continuous motion). */}
       <div className="absolute inset-0 -z-30 overflow-hidden">
         <Image
@@ -50,7 +50,7 @@ export function Hero() {
         aria-hidden
         className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgb(16_16_16/0.88)_0%,rgb(16_16_16/0.78)_35%,rgb(16_16_16/0.9)_70%,#101010_100%)] md:bg-[linear-gradient(90deg,rgb(16_16_16/0.96)_0%,rgb(16_16_16/0.84)_38%,rgb(16_16_16/0.45)_70%,rgb(16_16_16/0.3)_100%)]"
       />
-      <div aria-hidden className="absolute inset-x-0 bottom-0 -z-20 h-1/3 bg-gradient-to-b from-transparent to-ink" />
+      <div aria-hidden className="absolute inset-x-0 bottom-0 -z-20 h-1/3 bg-gradient-to-b from-transparent to-page" />
       <div
         aria-hidden
         className="absolute -left-1/4 top-[30svh] -z-20 size-[70vmax] rounded-full bg-[radial-gradient(closest-side,rgb(234_166_7/0.12),transparent)]"
@@ -65,14 +65,14 @@ export function Hero() {
       <Container size="wide" className="flex flex-1 flex-col justify-center pb-14 pt-[calc(var(--pc-header-h)+2.5rem)] md:pb-12">
         <div className="max-w-[60rem]">
           <p
-            className="mb-6 inline-flex animate-fade-up items-center gap-3 text-eyebrow font-bold uppercase text-gold"
+            className="mb-6 inline-flex animate-fade-up items-center gap-3 text-eyebrow font-bold uppercase text-accent"
             style={delay(0.05)}
           >
             <span aria-hidden className="h-px w-10 bg-gradient-to-r from-gold to-orange" />
             Your Power. Our Mission.
           </p>
 
-          <h1 id="hero-title" className="text-display font-bold text-white">
+          <h1 id="hero-title" className="text-display font-bold text-fg">
             {LEAD.map((w, i) => (
               <span key={w + i}>
                 <Word i={i}>{w}</Word>{" "}
@@ -103,13 +103,13 @@ export function Hero() {
           </div>
 
           <div className="mt-10 flex animate-fade-up flex-wrap items-center gap-x-6 gap-y-5" style={delay(afterWords + 0.35)}>
-            <div className="flex items-center gap-3 border border-hairline bg-white/[0.04] py-2 pl-2 pr-4 backdrop-blur-md">
+            <div className="flex items-center gap-3 border border-hairline bg-fg/[0.04] py-2 pl-2 pr-4 backdrop-blur-md">
               {/* Decorative: the text beside it already says "As seen on FOX Carolina". */}
               <Image src={foxBadge} alt="" height={48} sizes="58px" className="h-12 w-auto" />
               <span className="text-xs font-medium uppercase leading-tight tracking-[0.14em] text-on-dark">
                 As seen on
                 <br />
-                <span className="font-bold text-white">FOX Carolina</span>
+                <span className="font-bold text-fg">FOX Carolina</span>
               </span>
             </div>
             <ul aria-label="Our values" className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-bold uppercase tracking-[0.18em] text-on-dark-muted">
@@ -130,7 +130,7 @@ export function Hero() {
         <Container size="wide" className="flex h-16 items-center justify-between text-xs font-medium uppercase tracking-[0.18em]">
           <div className="flex items-center gap-8">
             <span className="text-on-dark-muted">Network</span>
-            <ul className="flex items-center gap-7 text-white">
+            <ul className="flex items-center gap-7 text-fg">
               {NETWORK.map((n, i) => (
                 <li key={n} className="flex items-center gap-2.5">
                   <span aria-hidden className="relative flex size-2">
@@ -142,9 +142,9 @@ export function Hero() {
               ))}
             </ul>
           </div>
-          <a href="#after-hero" className="group/scroll flex items-center gap-3 text-on-dark hover:text-gold">
+          <a href="#after-hero" className="group/scroll flex items-center gap-3 text-on-dark hover:text-accent">
             Scroll
-            <span aria-hidden className="relative h-8 w-px overflow-hidden bg-white/15">
+            <span aria-hidden className="relative h-8 w-px overflow-hidden bg-fg/15">
               <span className="decor-anim absolute inset-0 animate-scroll-cue bg-gold" />
             </span>
           </a>

@@ -51,10 +51,10 @@ function PersonCard({ p, i }: { p: Person; i: number }) {
           />
         </div>
         <div className="mt-5 sm:mt-0 lg:mt-5">
-          <h3 id={`person-${i}`} className="text-lg font-bold text-white">
+          <h3 id={`person-${i}`} className="text-lg font-bold text-fg">
             {p.name}
           </h3>
-          {p.title && <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-gold">{p.title}</p>}
+          {p.title && <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-accent">{p.title}</p>}
           <p className="mt-3 text-sm leading-relaxed text-on-dark">{inline(bio(p.name))}</p>
         </div>
       </GlassCard>
@@ -82,8 +82,8 @@ export default function WhoWeArePage() {
       <Section tone="ink-2" container="wide" aria-labelledby="mission-title" className="cv-auto">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <RevealOnScroll className="lg:col-span-5">
-            <p className="text-eyebrow font-bold uppercase text-gold">Our Vision</p>
-            <p className="mt-5 text-h2 font-bold text-white">{vision}</p>
+            <p className="text-eyebrow font-bold uppercase text-accent">Our Vision</p>
+            <p className="mt-5 text-h2 font-bold text-fg">{vision}</p>
             <div className="relative mt-10 aspect-[4/3] overflow-hidden border border-hairline">
               <Image src={missionImg} alt="PowerChampions team members working together" fill sizes="(min-width: 1024px) 38vw, 100vw" quality={65} className="object-cover" />
             </div>
@@ -96,7 +96,7 @@ export default function WhoWeArePage() {
               {mission.map((m, i) => (
                 <RevealItem as="li" key={m.label}>
                   <GlassCard className="h-full">
-                    <span className="text-xs font-bold tracking-[0.2em] text-gold">0{i + 1}</span>
+                    <span className="text-xs font-bold tracking-[0.2em] text-accent">0{i + 1}</span>
                     <h3 className="mt-4 text-lg font-bold">{m.label}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-on-dark">{inline(m.text)}</p>
                   </GlassCard>

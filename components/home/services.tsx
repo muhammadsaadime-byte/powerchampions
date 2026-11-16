@@ -86,7 +86,8 @@ export function Services() {
           <Link
             key={s.href}
             href={s.href}
-            className="group/svc relative isolate flex min-h-[34rem] flex-col justify-end overflow-hidden border border-hairline p-6 transition-[flex-grow,border-color,box-shadow] duration-700 ease-out-expo hover:border-gold/50 hover:shadow-glow-soft focus-visible:border-gold sm:p-10 lg:min-h-0 lg:flex-1 lg:hover:flex-[1.55] lg:focus-visible:flex-[1.55]"
+            data-scheme="dark"
+            className="group/svc relative isolate flex bg-page min-h-[34rem] flex-col justify-end overflow-hidden border border-hairline p-6 transition-[flex-grow,border-color,box-shadow] duration-700 ease-out-expo hover:border-gold/50 hover:shadow-glow-soft focus-visible:border-gold sm:p-10 lg:min-h-0 lg:flex-1 lg:hover:flex-[1.55] lg:focus-visible:flex-[1.55]"
           >
             <Image
               src={s.image}
@@ -98,26 +99,26 @@ export function Services() {
             />
             <span aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(16_16_16/0.35)_0%,rgb(16_16_16/0.75)_45%,#101010_100%)]" />
 
-            <span aria-hidden className="absolute left-6 top-6 text-xs font-bold tracking-[0.2em] text-gold sm:left-10 sm:top-10">
+            <span aria-hidden className="absolute left-6 top-6 text-xs font-bold tracking-[0.2em] text-accent sm:left-10 sm:top-10">
               0{i + 1} / 0{SERVICES.length}
             </span>
             <span
               aria-hidden
-              className="absolute right-6 top-6 flex size-12 items-center justify-center border border-gold/60 text-gold transition-colors duration-500 group-hover/svc:bg-gold group-hover/svc:text-ink sm:right-10 sm:top-10"
+              className="absolute right-6 top-6 flex size-12 items-center justify-center border border-gold/60 text-accent transition-colors duration-500 group-hover/svc:bg-gold group-hover/svc:text-ink sm:right-10 sm:top-10"
             >
               <svg viewBox="0 0 16 16" className="size-4 -rotate-45 transition-transform duration-500 group-hover/svc:rotate-0">
                 <path d="M1 8h12M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square" />
               </svg>
             </span>
 
-            <h3 className="text-h2 font-bold text-white">{s.title}</h3>
+            <h3 className="text-h2 font-bold text-fg">{s.title}</h3>
             <p className="mt-3 max-w-xl text-lead text-on-dark">{s.tagline}</p>
 
             <dl className="mt-8 grid max-w-2xl grid-cols-3 gap-4 border-y border-hairline py-5">
               {s.facts.map((f) => (
                 <div key={f.label}>
                   <dt className="sr-only">{f.label}</dt>
-                  <dd className="text-lg font-bold text-gold sm:text-2xl">{f.value}</dd>
+                  <dd className="text-lg font-bold text-accent sm:text-2xl">{f.value}</dd>
                   <dd className="mt-1 text-[0.7rem] leading-snug text-on-dark-muted sm:text-xs">{f.label}</dd>
                 </div>
               ))}
@@ -125,12 +126,12 @@ export function Services() {
 
             <ul className="mt-6 flex max-w-2xl flex-wrap gap-2">
               {s.capabilities.map((c) => (
-                <li key={c} className="border border-hairline bg-ink/85 px-3 py-1.5 text-xs font-medium text-white">
+                <li key={c} className="border border-hairline bg-ink/85 px-3 py-1.5 text-xs font-medium text-fg">
                   {c}
                 </li>
               ))}
             </ul>
-            <span className="mt-8 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.12em] text-white group-hover/svc:text-gold">
+            <span className="mt-8 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.12em] text-fg group-hover/svc:text-accent">
               Explore {s.title} →
             </span>
           </Link>

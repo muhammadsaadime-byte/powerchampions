@@ -67,7 +67,7 @@ export default function CareersPage() {
               ))}
             </div>
             <div className="space-y-4 border-l-2 border-gold pl-6 text-on-dark">
-              <h2 className="text-h3 font-bold text-white">We’re Empowering People Every Step of the Way</h2>
+              <h2 className="text-h3 font-bold text-fg">We’re Empowering People Every Step of the Way</h2>
               {intro("Empowering People Every Step").map((t, i) => (
                 <p key={i}>{inline(t)}</p>
               ))}
@@ -94,7 +94,7 @@ export default function CareersPage() {
           {steps.map((s, i) => (
             <RevealItem as="li" key={s.title}>
               <GlassCard className="h-full">
-                <span className="text-xs font-bold tracking-[0.2em] text-gold">STEP 0{i + 1}</span>
+                <span className="text-xs font-bold tracking-[0.2em] text-accent">STEP 0{i + 1}</span>
                 <h3 className="mt-6 text-h3 font-bold">{s.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-on-dark">{paragraphs(s.body).join(" ")}</p>
               </GlassCard>
@@ -131,7 +131,7 @@ export default function CareersPage() {
           {benefits.map((b, i) => (
             <RevealItem as="li" key={b.title}>
               <GlassCard className="h-full">
-                <span className="text-xs font-bold tracking-[0.2em] text-gold">0{i + 1}</span>
+                <span className="text-xs font-bold tracking-[0.2em] text-accent">0{i + 1}</span>
                 <h3 className="mt-5 text-lg font-bold">{b.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-on-dark">{paragraphs(b.body).join(" ")}</p>
               </GlassCard>
@@ -160,8 +160,8 @@ export default function CareersPage() {
           {missionVision.map((m) => (
             <RevealItem key={m.title}>
               <GlassCard padding="lg" className="h-full">
-                <p className="text-eyebrow font-bold uppercase text-gold">{m.title}</p>
-                <p className="mt-5 text-h3 font-medium leading-snug text-white">{paragraphs(m.body).join(" ")}</p>
+                <p className="text-eyebrow font-bold uppercase text-accent">{m.title}</p>
+                <p className="mt-5 text-h3 font-medium leading-snug text-fg">{paragraphs(m.body).join(" ")}</p>
               </GlassCard>
             </RevealItem>
           ))}
@@ -173,9 +173,9 @@ export default function CareersPage() {
           </RevealOnScroll>
           <RevealGroup as="ul" className="mt-12 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
             {values.map((v, i) => (
-              <RevealItem as="li" key={v.title} className="bg-ink p-8">
-                <span className="text-xs font-bold tracking-[0.2em] text-gold">0{i + 1}</span>
-                <h3 className="mt-4 text-lg font-bold text-white">{v.title}</h3>
+              <RevealItem as="li" key={v.title} className="bg-page p-8">
+                <span className="text-xs font-bold tracking-[0.2em] text-accent">0{i + 1}</span>
+                <h3 className="mt-4 text-lg font-bold text-fg">{v.title}</h3>
                 <p className="mt-2 text-sm text-on-dark">{paragraphs(v.body).join(" ")}</p>
               </RevealItem>
             ))}

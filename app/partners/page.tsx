@@ -110,7 +110,7 @@ export default function PartnersPage() {
 
         <div className="mt-20 grid gap-10 lg:grid-cols-12">
           <RevealOnScroll className="space-y-5 text-on-dark lg:col-span-5">
-            <h2 className="text-h2 font-bold text-white">A Partnership Designed Around Your Goals</h2>
+            <h2 className="text-h2 font-bold text-fg">A Partnership Designed Around Your Goals</h2>
             {p("A Partnership Designed Around Your Goals").map((t, i) => (
               <p key={i}>{inline(t)}</p>
             ))}
@@ -120,7 +120,7 @@ export default function PartnersPage() {
             {benefits.map((b, i) => (
               <RevealItem as="li" key={b.title}>
                 <GlassCard className="h-full">
-                  <span className="text-xs font-bold tracking-[0.2em] text-gold">0{i + 1}</span>
+                  <span className="text-xs font-bold tracking-[0.2em] text-accent">0{i + 1}</span>
                   <h3 className="mt-5 text-h3 font-bold">{b.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-on-dark">{paragraphs(b.body).join(" ")}</p>
                 </GlassCard>
@@ -139,7 +139,7 @@ export default function PartnersPage() {
           {lookFor.map((g) => (
             <RevealItem as="li" key={g.title}>
               <GlassCard className="h-full">
-                <h3 className="text-h3 font-bold text-gold">{g.title}</h3>
+                <h3 className="text-h3 font-bold text-accent">{g.title}</h3>
                 <ul className="prose-pc mt-5 text-sm text-on-dark">
                   {g.items.map((it) => (
                     <li key={it}>{it}</li>
@@ -158,7 +158,7 @@ export default function PartnersPage() {
           <RevealOnScroll className="space-y-5 text-on-dark">
             <SectionHeading id="identity-title" eyebrow="Your legacy" title="Grow While Maintaining Your Identity" />
             {p("Grow While Maintaining Your Identity").map((t, i) => (
-              <p key={i} className={i === 0 ? "text-lead text-white" : ""}>
+              <p key={i} className={i === 0 ? "text-lead text-fg" : ""}>
                 {inline(t)}
               </p>
             ))}
@@ -198,18 +198,18 @@ export default function PartnersPage() {
       <Section id="inquiry" tone="ink" grid container="wide" aria-labelledby="inquiry-title" className="scroll-mt-20">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="space-y-5 text-on-dark lg:col-span-5">
-            <p className="text-eyebrow font-bold uppercase text-gold">Confidential inquiry</p>
-            <h2 id="inquiry-title" className="text-h1 font-bold text-white">
+            <p className="text-eyebrow font-bold uppercase text-accent">Confidential inquiry</p>
+            <h2 id="inquiry-title" className="text-h1 font-bold text-fg">
               Start a Confidential Conversation
             </h2>
             <p className="text-lead">
               Thinking about selling or partnering? Share a few details below. Every conversation is confidential and there is no obligation.
             </p>
             <p>{p("Explore Partnership Opportunities")[0]}</p>
-            <p className="font-bold italic text-white">Confidential discussions. No obligation.</p>
+            <p className="font-bold italic text-fg">Confidential discussions. No obligation.</p>
           </div>
           <div className="lg:col-span-7">
-            <h3 className="mb-4 text-lg font-bold text-white">Tell Us About Your Business</h3>
+            <h3 className="mb-4 text-lg font-bold text-fg">Tell Us About Your Business</h3>
             <HubSpotForm formId={HUBSPOT.forms.partners} title="Partnership inquiry form" />
           </div>
         </div>

@@ -44,7 +44,7 @@ export default function DataCenterSolutionsPage() {
         }
         intro={
           <>
-            <p className="font-bold text-white">Powering Critical Infrastructure with Discipline, Speed, and Accountability.</p>
+            <p className="font-bold text-fg">Powering Critical Infrastructure with Discipline, Speed, and Accountability.</p>
             <p className="mt-4 text-base">{introParas[0]}</p>
           </>
         }
@@ -62,13 +62,13 @@ export default function DataCenterSolutionsPage() {
         }
       />
 
-      <div className="border-y border-hairline bg-ink-2">
+      <div className="border-y border-hairline bg-surface">
         <Container size="wide">
           <dl className="grid grid-cols-2 lg:grid-cols-4">
             {FACTS.map((f, i) => (
               <div key={f.label} className={`py-8 ${i % 2 ? "pl-6" : ""} ${i > 0 ? "lg:border-l lg:border-hairline lg:pl-8" : ""}`}>
                 <dt className="sr-only">{f.label}</dt>
-                <dd className="text-2xl font-bold text-gold sm:text-3xl">{f.value}</dd>
+                <dd className="text-2xl font-bold text-accent sm:text-3xl">{f.value}</dd>
                 <dd className="mt-1 text-xs uppercase tracking-[0.14em] text-on-dark-muted">{f.label}</dd>
               </div>
             ))}

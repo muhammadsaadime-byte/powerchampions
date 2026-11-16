@@ -43,7 +43,7 @@ export function CtaBand({
       <Container size="wide" className="grid gap-10 lg:grid-cols-12 lg:items-end">
         <RevealOnScroll className="lg:col-span-8">
           <p className="mb-5 inline-flex items-center gap-3 text-eyebrow font-bold uppercase">
-            <span aria-hidden className="h-px w-10 bg-ink" />
+            <span aria-hidden className="h-px w-10 bg-page" />
             {eyebrow}
           </p>
           <h2 id="cta-title" className="text-h1 font-bold text-ink">

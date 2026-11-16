@@ -67,7 +67,7 @@ export function StatCounter({ value, prefix = "", suffix = "", label, decimals =
 
   return (
     <div className={cn("flex flex-col gap-2", className)}>
-      <p className="font-bold leading-none text-white in-data-[tone=light]:text-heading">
+      <p className="font-bold leading-none text-fg in-data-[tone=light]:text-heading">
         <span className="sr-only">
           {prefix}
           {final}

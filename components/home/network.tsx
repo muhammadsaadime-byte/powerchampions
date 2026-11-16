@@ -13,7 +13,7 @@ const AUDIENCES = ["Team Members", "Market-Partners", "Communities"];
 
 export function Network() {
   return (
-    <section id="network" aria-labelledby="network-title" data-tone="dark" className="cv-auto relative isolate overflow-hidden bg-ink-2 py-20 sm:py-24 lg:py-32">
+    <section id="network" aria-labelledby="network-title" data-tone="dark" className="cv-auto relative isolate overflow-hidden bg-surface py-20 sm:py-24 lg:py-32">
       <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
       <div
         aria-hidden
@@ -36,7 +36,7 @@ export function Network() {
           />
           <ul aria-hidden className="mt-7 flex flex-wrap gap-3">
             {AUDIENCES.map((a) => (
-              <li key={a} className="border border-gold/40 bg-gold/[0.06] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white">
+              <li key={a} className="border border-gold/40 bg-gold/[0.06] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-fg">
                 {a}
               </li>
             ))}
@@ -53,7 +53,7 @@ export function Network() {
               Every technician, manager, and market-partner in our network plays a critical role in delivering backup power that protects people,
               enables progress, and delivers peace of mind.
             </p>
-            <p className="border-l-2 border-gold pl-5 text-white">
+            <p className="border-l-2 border-gold pl-5 text-fg">
               PowerChampions was built to help strong companies grow further. We recognize the work, pride, and commitment it takes to build a
               successful business. Our partnership model preserves your brand and leadership, while providing access to national expertise, capital
               and operational support.
@@ -85,7 +85,7 @@ export function Network() {
             <h3 className="text-h3 font-bold">The PowerChampions Leadership Team</h3>
             <Link
               href="/who-we-are#PowerChampions-Team"
-              className="text-sm font-bold uppercase tracking-[0.12em] text-white underline-offset-4 hover:text-gold hover:underline"
+              className="text-sm font-bold uppercase tracking-[0.12em] text-fg underline-offset-4 hover:text-accent hover:underline"
             >
               Full team &amp; advisory board →
             </Link>
@@ -118,7 +118,7 @@ export function Network() {
                     />
                   </div>
                   <figcaption className="mt-3">
-                    <span className="block text-sm font-bold text-white">{p.name}</span>
+                    <span className="block text-sm font-bold text-fg">{p.name}</span>
                     <span className="mt-0.5 block text-xs leading-snug text-on-dark-muted">{p.title}</span>
                   </figcaption>
                 </figure>

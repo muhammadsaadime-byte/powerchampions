@@ -51,8 +51,8 @@ export function Testimonials() {
   const go = (d: number) => setIndex((i) => (i + d + QUOTES.length) % QUOTES.length);
 
   return (
-    <section id="testimonials" aria-labelledby="testimonials-title" data-tone="dark" className="cv-auto relative isolate overflow-hidden bg-ink py-20 sm:py-24 lg:py-32">
-      <span aria-hidden className="pointer-events-none absolute -top-24 left-1/2 -z-10 -translate-x-1/2 select-none text-[22rem] font-bold leading-none text-white/[0.025]">
+    <section id="testimonials" aria-labelledby="testimonials-title" data-tone="dark" className="cv-auto relative isolate overflow-hidden bg-page py-20 sm:py-24 lg:py-32">
+      <span aria-hidden className="pointer-events-none absolute -top-24 left-1/2 -z-10 -translate-x-1/2 select-none text-[22rem] font-bold leading-none text-fg/[0.025]">
         “
       </span>
       <Container size="wide">
@@ -75,7 +75,7 @@ export function Testimonials() {
                 if (e.key === "ArrowRight") go(1);
                 if (e.key === "ArrowLeft") go(-1);
               }}
-              className="border border-hairline bg-white/[0.03] p-6 sm:p-10 lg:p-14"
+              className="border border-hairline bg-fg/[0.03] p-6 sm:p-10 lg:p-14"
             >
               <div className="grid" aria-live="polite">
                 {QUOTES.map((q, i) => {
@@ -94,13 +94,13 @@ export function Testimonials() {
                         active ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-6 opacity-0",
                       )}
                     >
-                      <svg aria-hidden viewBox="0 0 48 36" className="mb-6 h-8 w-auto text-gold">
+                      <svg aria-hidden viewBox="0 0 48 36" className="mb-6 h-8 w-auto text-accent">
                         <path
                           fill="currentColor"
                           d="M0 36V20.6C0 8.9 6.3 2 18.9 0l1.8 4.6C14 6.4 10.6 10.1 10.3 15.6H19V36H0Zm28.9 0V20.6C28.9 8.9 35.2 2 47.8 0l1.8 4.6c-6.7 1.8-10.1 5.5-10.4 11H48V36H28.9Z"
                         />
                       </svg>
-                      <blockquote className="text-lg font-medium leading-relaxed text-white sm:text-xl lg:text-[1.375rem]">
+                      <blockquote className="text-lg font-medium leading-relaxed text-fg sm:text-xl lg:text-[1.375rem]">
                         <p>{q.quote}</p>
                       </blockquote>
                       <figcaption className="mt-8 flex items-center gap-4">
@@ -108,7 +108,7 @@ export function Testimonials() {
                           <Image src={q.photo} alt="" fill sizes="56px" className="object-cover" />
                         </span>
                         <span>
-                          <span className="block font-bold text-white">{q.name}</span>
+                          <span className="block font-bold text-fg">{q.name}</span>
                           <span className="block text-sm text-on-dark-muted">{q.role}</span>
                         </span>
                       </figcaption>
@@ -132,7 +132,7 @@ export function Testimonials() {
                       <span
                         className={cn(
                           "block h-0.5 transition-all duration-500 ease-out-expo",
-                          i === index ? "w-10 bg-gold shadow-[0_0_8px_rgb(234_166_7/0.8)]" : "w-5 bg-white/30 group-hover/dot:bg-white/60",
+                          i === index ? "w-10 bg-gold shadow-[0_0_8px_rgb(234_166_7/0.8)]" : "w-5 bg-fg/30 group-hover/dot:bg-fg/60",
                         )}
                       />
                     </button>
@@ -148,7 +148,7 @@ export function Testimonials() {
                       type="button"
                       onClick={() => go(dir === "prev" ? -1 : 1)}
                       aria-label={dir === "prev" ? "Previous testimonial" : "Next testimonial"}
-                      className="flex size-12 items-center justify-center border border-hairline text-white transition-[border-color,color,box-shadow] duration-300 hover:border-gold hover:text-gold hover:shadow-glow-soft"
+                      className="flex size-12 items-center justify-center border border-hairline text-fg transition-[border-color,color,box-shadow] duration-300 hover:border-gold hover:text-accent hover:shadow-glow-soft"
                     >
                       <Arrow dir={dir} />
                     </button>

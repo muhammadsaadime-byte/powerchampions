@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { Providers } from "@/components/providers";
 import { Analytics } from "@/components/site/analytics";
 import { OrgJsonLd } from "@/components/site/org-json-ld";
+import { ThemeScript } from "@/components/site/theme-script";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import "./globals.css";
@@ -28,14 +29,19 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#101010",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#101010" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  ],
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={exo.variable}>
+    // suppressHydrationWarning: <ThemeScript> may set data-theme on <html> before React hydrates.
+    <html lang="en" className={exo.variable} suppressHydrationWarning>
       <body className="min-h-dvh antialiased">
+        <ThemeScript />
         <OrgJsonLd />
         <Providers>
           <Suspense fallback={null}>

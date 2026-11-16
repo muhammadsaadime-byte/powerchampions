@@ -116,7 +116,7 @@ export default function StyleguidePage() {
           />
           <nav aria-label="Styleguide sections" className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium">
             {["colors", "contrast", "type", "buttons", "headings", "cards", "stats", "marquee", "reveal", "backgrounds"].map((s) => (
-              <a key={s} href={`#${s}`} className="capitalize text-on-dark underline-offset-4 hover:text-gold hover:underline">
+              <a key={s} href={`#${s}`} className="capitalize text-on-dark underline-offset-4 hover:text-accent hover:underline">
                 {s}
               </a>
             ))}
@@ -131,7 +131,7 @@ export default function StyleguidePage() {
             <li key={c.token} className="border border-hairline">
               <div className="h-24 border-b border-hairline" style={{ background: c.hex }} />
               <div className="space-y-1 p-4 text-sm">
-                <p className="font-bold text-white">{c.name}</p>
+                <p className="font-bold text-fg">{c.name}</p>
                 <p className="text-xs text-on-dark">{c.hex}</p>
                 <p className="text-xs text-on-dark-muted">var({c.token})</p>
                 <p className="pt-1 text-xs text-on-dark-muted">{c.role}</p>
@@ -166,8 +166,8 @@ export default function StyleguidePage() {
                         Critical Power
                       </span>
                     </td>
-                    <td className="py-3 pr-4 text-white">{r.toFixed(2)}:1</td>
-                    <td className={`py-3 font-bold ${res === "Fail" ? "text-orange" : "text-white"}`}>
+                    <td className="py-3 pr-4 text-fg">{r.toFixed(2)}:1</td>
+                    <td className={`py-3 font-bold ${res === "Fail" ? "text-orange" : "text-fg"}`}>
                       {res === "Fail" ? "✕ Fail" : `✓ ${res}`}
                     </td>
                   </tr>
@@ -177,7 +177,7 @@ export default function StyleguidePage() {
           </table>
         </div>
         <p className="mt-6 max-w-3xl text-sm">
-          <strong className="text-white">Decided 2026-11-13:</strong> gold buttons use an ink label (9.0:1). White on gold fails WCAG AA at any size,
+          <strong className="text-fg">Decided 2026-11-13:</strong> gold buttons use an ink label (9.0:1). White on gold fails WCAG AA at any size,
           so it isn’t used. Gold text is only used on dark backgrounds.
         </p>
       </Block>
@@ -187,21 +187,21 @@ export default function StyleguidePage() {
         <div className="space-y-10">
           <div>
             <Label>Display · clamp(40px → 84px) · 700</Label>
-            <p className="text-display font-bold text-white">
+            <p className="text-display font-bold text-fg">
               Redefining Leadership In Industrial <span className="text-glow">Critical Power.</span>
             </p>
           </div>
           <div>
             <Label>H1 · clamp(34px → 60px)</Label>
-            <p className="text-h1 font-bold text-white">Sell Your Business To a Strategic Partner</p>
+            <p className="text-h1 font-bold text-fg">Sell Your Business To a Strategic Partner</p>
           </div>
           <div>
             <Label>H2 · clamp(28px → 44px)</Label>
-            <p className="text-h2 font-bold text-white">The Values That Power Us</p>
+            <p className="text-h2 font-bold text-fg">The Values That Power Us</p>
           </div>
           <div>
             <Label>H3 · clamp(20px → 26px)</Label>
-            <p className="text-h3 font-bold text-white">Why Industrial Facilities in the Southeast Choose PowerChampions</p>
+            <p className="text-h3 font-bold text-fg">Why Industrial Facilities in the Southeast Choose PowerChampions</p>
           </div>
           <div className="grid gap-10 md:grid-cols-2">
             <div>
@@ -282,7 +282,7 @@ export default function StyleguidePage() {
           {VALUES.map((v, i) => (
             <RevealItem as="li" key={v.title}>
               <GlassCard className="h-full">
-                <span aria-hidden className="mb-8 flex size-12 items-center justify-center border border-gold/40 text-sm text-gold">
+                <span aria-hidden className="mb-8 flex size-12 items-center justify-center border border-gold/40 text-sm text-accent">
                   0{i + 1}
                 </span>
                 <h3 className="mb-3 text-h3">{v.title}</h3>
@@ -320,7 +320,7 @@ export default function StyleguidePage() {
         <Label>Text: brand values</Label>
         <Marquee label="Our values" duration={30}>
           {["Servant Leadership", "Empathy", "Sincerity", "Integrity", "Your Power. Our Mission."].map((t) => (
-            <li key={t} className="flex items-center gap-12 whitespace-nowrap text-h2 font-bold text-white/90">
+            <li key={t} className="flex items-center gap-12 whitespace-nowrap text-h2 font-bold text-fg/90">
               {t}
               <span aria-hidden className="size-2 rotate-45 bg-gold" />
             </li>
@@ -349,14 +349,14 @@ export default function StyleguidePage() {
       <Block id="reveal" title="RevealOnScroll" tone="ink-2">
         <Label>Single element · and staggered group (scroll to replay on reload)</Label>
         <RevealOnScroll>
-          <p className="max-w-3xl text-h3 font-medium text-white">
+          <p className="max-w-3xl text-h3 font-medium text-fg">
             “Because real reliability starts with people who care.”
           </p>
         </RevealOnScroll>
         <RevealGroup className="mt-10 grid gap-4 sm:grid-cols-3" stagger={0.15}>
           {["Team Members", "Market-Partners", "Communities"].map((t) => (
             <RevealItem key={t}>
-              <div className="border-l-2 border-gold bg-white/[0.03] px-5 py-6 font-bold uppercase tracking-[0.14em] text-white">{t}</div>
+              <div className="border-l-2 border-gold bg-fg/[0.03] px-5 py-6 font-bold uppercase tracking-[0.14em] text-fg">{t}</div>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -365,11 +365,11 @@ export default function StyleguidePage() {
       {/* ── Backgrounds ── */}
       <Block id="backgrounds" title="GridBackground & EnergyLines">
         <div className="grid gap-5 md:grid-cols-2">
-          <div className="relative isolate flex aspect-[4/3] items-end overflow-hidden border border-hairline bg-ink-2 p-6">
+          <div className="relative isolate flex aspect-[4/3] items-end overflow-hidden border border-hairline bg-surface p-6">
             <GridBackground fade="center" />
             <p className="text-xs uppercase tracking-[0.2em] text-on-dark-muted">GridBackground · CSS only</p>
           </div>
-          <div className="relative isolate flex aspect-[4/3] items-end overflow-hidden border border-hairline bg-ink-2 p-6">
+          <div className="relative isolate flex aspect-[4/3] items-end overflow-hidden border border-hairline bg-surface p-6">
             <EnergyLines />
             <p className="text-xs uppercase tracking-[0.2em] text-on-dark-muted">EnergyLines · SVG + CSS, no JS</p>
           </div>

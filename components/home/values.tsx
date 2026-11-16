@@ -48,17 +48,17 @@ export function Values() {
           <RevealItem as="li" key={title}>
             <GlassCard as="article" padding="lg" className="flex h-full flex-col" aria-labelledby={`value-${i}`}>
               <div className="flex items-start justify-between">
-                <span className="flex size-14 items-center justify-center border border-gold/40 bg-gold/[0.06] text-gold transition-[background-color,color,box-shadow,border-color] duration-500 ease-out-expo group-hover/card:border-gold group-hover/card:bg-gold group-hover/card:text-ink group-hover/card:shadow-glow">
+                <span className="flex size-14 items-center justify-center border border-gold/40 bg-gold/[0.06] text-accent transition-[background-color,color,box-shadow,border-color] duration-500 ease-out-expo group-hover/card:border-gold group-hover/card:bg-gold group-hover/card:text-ink group-hover/card:shadow-glow">
                   <Icon className="pc-icon-draw size-8" />
                 </span>
-                <span aria-hidden className="text-xs font-bold tracking-[0.2em] text-on-dark-muted transition-colors group-hover/card:text-gold">
+                <span aria-hidden className="text-xs font-bold tracking-[0.2em] text-on-dark-muted transition-colors group-hover/card:text-accent">
                   0{i + 1}
                 </span>
               </div>
               <h3 id={`value-${i}`} className="mt-10 text-h3 font-bold">
                 {title}
               </h3>
-              <p className="mt-3 font-medium leading-snug text-white">{lead}</p>
+              <p className="mt-3 font-medium leading-snug text-fg">{lead}</p>
               <p className="mt-3 text-sm leading-relaxed text-on-dark">{body}</p>
             </GlassCard>
           </RevealItem>

@@ -72,12 +72,12 @@ export function Locations() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-loc={l.id}
-                  className="group/loc flex items-start gap-4 border border-hairline bg-white/[0.02] p-5 transition-[border-color,background-color,box-shadow] duration-500 hover:border-gold/50 hover:bg-white/[0.04] hover:shadow-glow-soft focus-visible:border-gold"
+                  className="group/loc flex items-start gap-4 border border-hairline bg-fg/[0.02] p-5 transition-[border-color,background-color,box-shadow] duration-500 hover:border-gold/50 hover:bg-fg/[0.04] hover:shadow-glow-soft focus-visible:border-gold"
                 >
-                  <span className="mt-0.5 text-xs font-bold tracking-[0.2em] text-gold">0{i + 1}</span>
+                  <span className="mt-0.5 text-xs font-bold tracking-[0.2em] text-accent">0{i + 1}</span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-xs font-bold uppercase tracking-[0.16em] text-on-dark-muted">{l.city}</span>
-                    <span className="mt-1 block font-bold text-white group-hover/loc:text-gold">{l.name}</span>
+                    <span className="mt-1 block font-bold text-fg group-hover/loc:text-accent">{l.name}</span>
                     <span className="mt-1 block text-sm text-on-dark">{l.address}</span>
                     <span className="mt-2 block text-xs text-on-dark-muted">
                       {l.note} · {l.site} ↗
@@ -137,8 +137,8 @@ export function NetworkMap() {
         ))}
 
         {/* HUD readout */}
-        <div aria-hidden className="absolute bottom-0 left-0 hidden border-l-2 border-gold bg-ink/90 px-4 py-3 sm:block">
-          <p className="text-eyebrow font-bold uppercase text-gold">Southeast network</p>
+        <div aria-hidden data-scheme="dark" className="absolute bottom-0 left-0 hidden border-l-2 border-gold bg-ink/90 px-4 py-3 sm:block">
+          <p className="text-eyebrow font-bold uppercase text-accent">Southeast network</p>
           <p className="mt-1.5 text-xs text-on-dark">3 service locations · 24/7 coverage</p>
         </div>
       </AnimateWhenVisible>

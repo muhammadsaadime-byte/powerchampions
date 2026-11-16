@@ -30,8 +30,8 @@ const sizes: Record<Size, string> = {
 const variants: Record<Variant, string> = {
   // Ink label on gold: 9.0:1 (WCAG AAA). Brand decision 2026-11-13: white-on-gold (2.1:1) fails AA, so it isn't offered.
   primary: "bg-gold text-ink hover:shadow-glow active:bg-orange",
-  outline: "border border-gold/70 text-white hover:border-gold hover:bg-gold/10 hover:shadow-glow-soft",
-  ghost: "text-white hover:text-gold px-0! min-h-0!",
+  outline: "border border-gold/70 text-fg hover:border-gold hover:bg-gold/10 hover:shadow-glow-soft",
+  ghost: "text-fg hover:text-accent px-0! min-h-0!",
   navy: "bg-navy text-white hover:bg-[#00307a] hover:shadow-[0_10px_30px_-8px_rgb(0_33_85/0.6)]",
   // For use on gold backgrounds (CTA band): white on ink 19:1, ink border on gold 9:1.
   ink: "bg-ink text-white hover:shadow-[0_14px_40px_-10px_rgb(16_16_16/0.75)]",

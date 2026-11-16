@@ -16,7 +16,7 @@ export function Faq({ items, pageUrl }: { items: Array<{ q: string; a: string }>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {items.map((item) => (
         <details key={item.q} className="group/faq">
-          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-left text-lg font-bold text-white transition-colors hover:text-gold [&::-webkit-details-marker]:hidden">
+          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-left text-lg font-bold text-fg transition-colors hover:text-accent [&::-webkit-details-marker]:hidden">
             {item.q}
             <span aria-hidden className="relative mt-1.5 size-4 shrink-0 transition-transform duration-300 group-open/faq:rotate-45">
               <span className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 bg-gold" />
