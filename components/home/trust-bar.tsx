@@ -8,13 +8,13 @@ import poweredToWinLogo from "@/public/images/site/powered-to-win-by-powerchampi
 /**
  * Trust bar: only figures that appear on the live site. TODO(client): swap in headline numbers
  * (technicians, generators serviced, states…) when PowerChampions supplies them.
- *  - 200+ years — who-we-are: "more than 200 years of combined expertise"
+ *  - 10+ years — set by the client (2026-11-16); the Who We Are leadership paragraph still says "more than 200 years"
  *  - 24/7      — backup-power-centers: "24/7/365 emergency response"
  *  - 3         — locations: Greenville, Columbia, Atlanta
  *  - 4         — home: "every individual in our network lives by four values"
  */
 const STATS = [
-  { value: 200, suffix: "+", label: "Years of combined leadership expertise" },
+  { value: 10, suffix: "+", label: "Years of combined leadership expertise" },
   { value: 24, suffix: "/7", label: "Emergency response, 365 days a year" },
   { value: 3, label: "Service locations across SC & GA" },
   { value: 4, label: "Core values every team member lives by" },

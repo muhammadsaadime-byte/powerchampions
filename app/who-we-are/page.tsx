@@ -102,7 +102,7 @@ export default function WhoWeArePage() {
           </>
         }
         specs={[
-          { value: "200+", label: "Years of combined leadership expertise" },
+          { value: "10+", label: "Years of combined leadership expertise" },
           { value: "ASTA", label: "In-house American Trades Academy" },
           { value: "4", label: "Core values every team member lives by" },
           { value: "3", label: "Service locations across SC & GA" },
