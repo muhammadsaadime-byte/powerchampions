@@ -4,6 +4,7 @@ import { CtaBand } from "@/components/home/cta-band";
 import { Values } from "@/components/home/values";
 import { Markdown, inline } from "@/components/page/markdown";
 import { PageHero } from "@/components/page/page-hero";
+import { PlatformPillars } from "@/components/page/platform-pillars";
 import { GlassCard, RevealGroup, RevealItem, RevealOnScroll, Section, SectionHeading } from "@/components/ui";
 import { blocks, bullets, labelled, pageCopy, paragraphs, section } from "@/lib/content";
 import { ADVISORY, LEADERSHIP, type Person } from "@/lib/team";
@@ -109,23 +110,7 @@ export default function WhoWeArePage() {
 
       <Values />
 
-      {/* Growth support */}
-      <Section tone="ink-2" container="wide" aria-labelledby="growth-title" className="cv-auto">
-        <RevealOnScroll>
-          <SectionHeading id="growth-title" eyebrow="The platform" title="How We Support Growth Across the Platform" />
-        </RevealOnScroll>
-        <RevealGroup as="ul" className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {growth.map((g) => (
-            <RevealItem as="li" key={g.label}>
-              <GlassCard className="h-full">
-                <span aria-hidden className="block h-0.5 w-10 bg-gradient-to-r from-gold to-orange" />
-                <h3 className="mt-6 text-h3 font-bold">{g.label}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-on-dark">{inline(g.text)}</p>
-              </GlassCard>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </Section>
+      <PlatformPillars pillars={growth} />
 
       {/* Leadership — anchor kept from the live site */}
       <Section id="PowerChampions-Team" tone="ink" grid container="wide" aria-labelledby="team-title" className="cv-auto">
