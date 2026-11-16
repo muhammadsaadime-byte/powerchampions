@@ -138,7 +138,7 @@ export function NetworkMap() {
         ))}
 
         {/* three.js version of the map (beacons, flowing links); the SVG above stays as fallback. */}
-        <PowerScene variant="map" className="absolute -inset-x-[8%] -inset-y-[18%]" />
+        <PowerScene variant="map" className="absolute -inset-y-[22%] -right-[10%] left-0" />
 
         {/* HUD readout */}
         <div aria-hidden data-scheme="dark" className="absolute bottom-0 left-0 hidden border-l-2 border-gold bg-ink/90 px-4 py-3 sm:block">
