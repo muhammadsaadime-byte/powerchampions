@@ -63,10 +63,20 @@ export function section(md: string, title: string): string {
 
 /** Bullet items ("- text") in a chunk of markdown. */
 export function bullets(md: string): string[] {
-  return md
-    .split("\n")
-    .filter((l) => l.startsWith("- "))
-    .map((l) => l.slice(2).trim());
+  // A bullet can wrap onto following lines (the live copy has some); join those until a blank line or the next bullet.
+  const out: string[] = [];
+  let open = false;
+  for (const line of md.split("\n")) {
+    if (line.startsWith("- ")) {
+      out.push(line.slice(2).trim());
+      open = true;
+    } else if (!line.trim() || line.startsWith("#")) {
+      open = false;
+    } else if (open) {
+      out[out.length - 1] += " " + line.trim();
+    }
+  }
+  return out;
 }
 
 /** Paragraphs (non-heading, non-list text) in a chunk of markdown. */

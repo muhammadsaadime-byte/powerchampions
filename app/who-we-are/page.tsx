@@ -3,13 +3,13 @@ import Image from "next/image";
 import { CtaBand } from "@/components/home/cta-band";
 import { Values } from "@/components/home/values";
 import { Markdown, inline } from "@/components/page/markdown";
-import { PageHero } from "@/components/page/page-hero";
 import { PlatformPillars } from "@/components/page/platform-pillars";
+import { Icon, ServiceHero, type IconName } from "@/components/services/blocks";
+import { Button } from "@/components/ui";
 import { GlassCard, RevealGroup, RevealItem, RevealOnScroll, Section, SectionHeading } from "@/components/ui";
 import { blocks, bullets, labelled, pageCopy, paragraphs, section } from "@/lib/content";
 import { ADVISORY, LEADERSHIP, type Person } from "@/lib/team";
 import { cn } from "@/lib/cn";
-import heroImg from "@/public/images/site/powerchampions-who-we-are.jpg";
 import missionImg from "@/public/images/site/powerchampions-mission.jpg";
 
 export const metadata: Metadata = {
@@ -38,45 +38,75 @@ function bio(name: string) {
 }
 
 function PersonCard({ p, i }: { p: Person; i: number }) {
+  const text = bio(p.name);
   return (
     <RevealItem as="li">
-      <GlassCard as="article" padding="sm" className="flex h-full flex-col sm:flex-row sm:gap-6 lg:flex-col" aria-labelledby={`person-${i}`}>
-        <div className="relative aspect-[4/5] w-full shrink-0 overflow-hidden border border-hairline bg-mist sm:w-40 lg:w-full">
+      <GlassCard as="article" padding="sm" className="flex h-full flex-col" aria-labelledby={`person-${i}`}>
+        <div className="relative aspect-square w-full overflow-hidden border border-hairline bg-mist">
           <Image
             src={p.photo}
             alt=""
             fill
-            sizes="(min-width: 1024px) 22vw, (min-width: 640px) 160px, 90vw"
+            sizes="(min-width: 1024px) 20vw, (min-width: 640px) 45vw, 90vw"
             quality={70}
-            className={cn("object-cover object-top grayscale transition-[filter] duration-700 group-hover/card:grayscale-0", p.crop)}
+            className={cn("object-cover object-top grayscale transition-[filter,transform] duration-700 group-hover/card:scale-[1.03] group-hover/card:grayscale-0", p.crop)}
           />
+          <span aria-hidden className="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-gold to-orange transition-transform duration-700 ease-out-expo group-hover/card:scale-x-100" />
         </div>
-        <div className="mt-5 sm:mt-0 lg:mt-5">
-          <h3 id={`person-${i}`} className="text-lg font-bold text-fg">
-            {p.name}
-          </h3>
-          {p.title && <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-accent">{p.title}</p>}
-          <p className="mt-3 text-sm leading-relaxed text-on-dark">{inline(bio(p.name))}</p>
-        </div>
+        <h3 id={`person-${i}`} className="mt-5 text-lg font-bold text-fg">
+          {p.name}
+        </h3>
+        {p.title && <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-accent">{p.title}</p>}
+        {text && (
+          // Bios are long; tucked behind a native disclosure so the grid stays scannable.
+          <details className="group/bio mt-4 border-t border-hairline pt-3">
+            <summary className="flex cursor-pointer list-none items-center justify-between text-xs font-bold uppercase tracking-[0.14em] text-fg hover:text-accent [&::-webkit-details-marker]:hidden">
+              Read bio
+              <span aria-hidden className="text-accent transition-transform duration-300 group-open/bio:rotate-45">+</span>
+            </summary>
+            <p className="mt-3 text-sm leading-relaxed text-on-dark">{inline(text)}</p>
+          </details>
+        )}
       </GlassCard>
     </RevealItem>
   );
 }
 
+const MISSION_ICONS: IconName[] = ["users", "handshake", "shield", "chart"];
+
 export default function WhoWeArePage() {
   return (
     <main id="main" tabIndex={-1} className="outline-none">
-      <PageHero
+      <ServiceHero
+        scene="generator"
         crumbs={[{ label: "Who We Are", href: "/who-we-are" }]}
         eyebrow="An innovative, people-first platform for critical power services"
-        title="Who We Are"
-        image={heroImg}
-        imageAlt="PowerChampions technicians at work"
+        title={
+          <>
+            Who <span className="text-glow">We Are</span>
+          </>
+        }
         intro={heroParas.map((p, i) => (
           <p key={i} className={i ? "mt-4 text-base" : ""}>
             {inline(p)}
           </p>
         ))}
+        actions={
+          <>
+            <Button href="/contact-us" size="lg">
+              Partner With Us
+            </Button>
+            <Button href="#PowerChampions-Team" variant="outline" size="lg" arrow>
+              Meet the Team
+            </Button>
+          </>
+        }
+        specs={[
+          { value: "200+", label: "Years of combined leadership expertise" },
+          { value: "ASTA", label: "In-house American Trades Academy" },
+          { value: "4", label: "Core values every team member lives by" },
+          { value: "3", label: "Service locations across SC & GA" },
+        ]}
       />
 
       {/* Vision & mission */}
@@ -97,8 +127,13 @@ export default function WhoWeArePage() {
               {mission.map((m, i) => (
                 <RevealItem as="li" key={m.label}>
                   <GlassCard className="h-full">
-                    <span className="text-xs font-bold tracking-[0.2em] text-accent">0{i + 1}</span>
-                    <h3 className="mt-4 text-lg font-bold">{m.label}</h3>
+                    <div className="flex items-start justify-between">
+                      <span className="flex size-12 items-center justify-center border border-gold/40 bg-gold/[0.06] text-accent transition-colors duration-500 group-hover/card:border-gold group-hover/card:bg-gold/15">
+                        <Icon name={MISSION_ICONS[i % MISSION_ICONS.length]} />
+                      </span>
+                      <span aria-hidden className="text-xs font-bold tracking-[0.2em] text-on-dark-muted">0{i + 1}</span>
+                    </div>
+                    <h3 className="mt-6 text-lg font-bold">{m.label}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-on-dark">{inline(m.text)}</p>
                   </GlassCard>
                 </RevealItem>
@@ -117,7 +152,7 @@ export default function WhoWeArePage() {
         <RevealOnScroll>
           <SectionHeading id="team-title" eyebrow="Our team" title="The PowerChampions Leadership Team" intro={<Markdown md={leadershipIntro} />} className="max-w-4xl" />
         </RevealOnScroll>
-        <RevealGroup as="ul" stagger={0.06} className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <RevealGroup as="ul" stagger={0.06} className="mt-14 grid items-start gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {LEADERSHIP.map((p, i) => (
             <PersonCard key={p.name} p={p} i={i} />
           ))}
@@ -128,7 +163,7 @@ export default function WhoWeArePage() {
         <RevealOnScroll>
           <SectionHeading id="advisory-title" eyebrow="Guidance & accountability" title="PowerChampions Advisory Board" intro={advisoryIntro} className="max-w-4xl" />
         </RevealOnScroll>
-        <RevealGroup as="ul" stagger={0.06} className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <RevealGroup as="ul" stagger={0.06} className="mt-14 grid items-start gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {ADVISORY.map((p, i) => (
             <PersonCard key={p.name} p={p} i={LEADERSHIP.length + i} />
           ))}
