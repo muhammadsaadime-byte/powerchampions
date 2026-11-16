@@ -462,6 +462,3 @@
 .pc-scene-fallback { transition: opacity 1.2s ease-out; }
 [data-scene-ready] > .pc-scene-fallback,
 [data-scene-ready] .pc-scene-fallback { opacity: 0; }
-/* Homepage hero: the photo steps back a little once the 3D energy field is running. */
-.pc-hero-photo { transition: opacity 1.6s ease-out; }
-[data-scene-ready] > .pc-hero-photo { opacity: 0.6; }

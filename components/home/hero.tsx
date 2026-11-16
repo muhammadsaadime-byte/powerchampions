@@ -2,18 +2,24 @@ import Image from "next/image";
 import { Button, Container, EnergyLines, GridBackground } from "@/components/ui";
 import { AnimateWhenVisible } from "@/components/ui/animate-when-visible";
 import { PowerScene } from "@/components/services/power-scene";
-import heroPhoto from "@/public/images/site/technicians-battery-training-asta-workshop.jpg";
 import foxBadge from "@/public/images/site/as-seen-on-fox-carolina.jpg";
 
 /**
  * Homepage hero. Copy: live homepage (content/home.md), headline in the brief's title case.
+ * Layout: copy on the left over solid ink; a three.js night city fills the right and bottom
+ * (components/services/city-scene.ts) and loops a grid outage where the protected facilities stay lit.
  * Everything here is server-rendered with CSS-only entrance animations, so the headline
- * (the LCP element) paints on first frame instead of waiting for JS hydration.
+ * (the LCP element) paints on first frame instead of waiting for JS hydration. Until three.js has
+ * loaded (and on software-rendered devices) the grid, glow and energy lines stand in.
  */
 const LEAD = ["PowerChampions", "Is", "Redefining", "Leadership", "In", "Industrial"];
 const GLOW = ["Critical", "Power."];
-const VALUES = ["Servant Leadership", "Empathy", "Sincerity", "Integrity"];
 const NETWORK = ["Greenville, SC", "Columbia, SC", "Atlanta, GA"];
+/** Facts already stated in the stats bar below (trust-bar.tsx). */
+const FACTS = [
+  { value: "24/7", label: "Emergency response, 365 days a year" },
+  { value: "3", label: "Service locations across SC & GA" },
+];
 
 const WORD_START = 0.15; // s
 const WORD_STEP = 0.07; // s between words
@@ -31,48 +37,33 @@ function Word({ children, i }: { children: string; i: number }) {
 export function Hero() {
   return (
     <section aria-labelledby="hero-title" data-scheme="dark" className="relative isolate flex min-h-svh flex-col overflow-hidden bg-page">
-      {/* Photo: settles from a slight zoom once (no continuous motion). */}
-      <div className="pc-hero-photo absolute inset-0 -z-30 overflow-hidden">
-        <Image
-          src={heroPhoto}
-          alt="An American Skilled Trades Academy instructor shows PowerChampions technicians how to test commercial generator batteries during a training workshop"
-          fill
-          loading="eager"
-          fetchPriority="high"
-          quality={60}
-          sizes="100vw"
-          // No placeholder="blur": Next paints it as a full-viewport SVG Gaussian blur, which cost a ~1.6s
-          // main-thread task on throttled mobile. The ink background already covers the brief load gap.
-          className="animate-hero-settle object-cover object-[58%_30%] md:object-[65%_35%]"
-        />
-      </div>
-      {/* Legibility: vertical wash on phones, left-to-right wash on wider screens, plus a fade into the next section. */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgb(16_16_16/0.88)_0%,rgb(16_16_16/0.78)_35%,rgb(16_16_16/0.9)_70%,#101010_100%)] md:bg-[linear-gradient(90deg,rgb(16_16_16/0.96)_0%,rgb(16_16_16/0.84)_38%,rgb(16_16_16/0.45)_70%,rgb(16_16_16/0.3)_100%)]"
-      />
-      {/* Ink floor under the lower half: the 3D energy field glows on it, and the badges stay legible. */}
-      <div aria-hidden className="absolute inset-x-0 bottom-0 -z-20 h-1/2 bg-gradient-to-b from-transparent via-ink/70 to-page" />
-      <div
-        aria-hidden
-        className="absolute -left-1/4 top-[30svh] -z-20 size-[70vmax] rounded-full bg-[radial-gradient(closest-side,rgb(234_166_7/0.12),transparent)]"
-      />
       <GridBackground fade="center" glow={false} />
+      {/* Ambient glow where the city sits, so the hero reads well before the scene loads. */}
+      <div
+        aria-hidden
+        className="absolute bottom-[-20%] right-[-10%] -z-20 size-[110vmin] rounded-full bg-[radial-gradient(closest-side,rgb(234_166_7/0.16),rgb(245_117_0/0.05)_55%,transparent)]"
+      />
       {/* Sized to the viewport, not the content: font swap can change the section height,
           which would re-centre the traces and register as layout shift. */}
       <div aria-hidden className="pc-scene-fallback pointer-events-none absolute inset-x-0 top-0 -z-10 h-svh">
         <EnergyLines intensity={0.9} />
       </div>
-      {/* three.js energy field: the national network as linked beacons on a rippling holographic floor. */}
-      <PowerScene variant="field" className="absolute inset-x-0 bottom-0 -z-10 h-[78svh] opacity-70 md:opacity-100" />
+      <PowerScene variant="city" className="absolute inset-0 -z-10 opacity-55 md:opacity-100 lg:left-[24%]" />
+      {/* Legibility: solid ink under the copy, fading out towards the city; soft fade into the next section. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(16_16_16/0.75),rgb(16_16_16/0.55)_55%,rgb(16_16_16/0.85))] md:bg-[linear-gradient(90deg,#101010_0%,rgb(16_16_16/0.94)_30%,rgb(16_16_16/0.55)_52%,transparent_72%)]"
+      />
+      <div aria-hidden className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-page" />
+      <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-page to-transparent" />
 
       <Container size="wide" className="flex flex-1 flex-col justify-center pb-14 pt-[calc(var(--pc-header-h)+2.5rem)] md:pb-12">
-        <div className="max-w-[60rem]">
-          <p
-            className="mb-6 inline-flex animate-fade-up items-center gap-3 text-eyebrow font-bold uppercase text-accent"
-            style={delay(0.05)}
-          >
-            <span aria-hidden className="h-px w-10 bg-gradient-to-r from-gold to-orange" />
+        <div className="max-w-[58rem]">
+          <p className="mb-6 inline-flex animate-fade-up items-center gap-3 border border-gold/30 bg-gold/[0.07] px-4 py-2 text-eyebrow font-bold uppercase text-accent backdrop-blur-md" style={delay(0.05)}>
+            <span aria-hidden className="relative flex size-2">
+              <span className="absolute inset-0 animate-pulse-dot rounded-full bg-gold" />
+              <span className="relative size-2 rounded-full bg-gold" />
+            </span>
             Your Power. Our Mission.
           </p>
 
@@ -106,7 +97,16 @@ export function Hero() {
             </Button>
           </div>
 
-          <div className="mt-10 flex animate-fade-up flex-wrap items-center gap-x-6 gap-y-5" style={delay(afterWords + 0.35)}>
+          {/* Proof row: two facts and the press badge. */}
+          <div className="mt-10 flex animate-fade-up flex-wrap items-stretch gap-3" style={delay(afterWords + 0.35)}>
+            <dl className="flex items-stretch gap-3">
+              {FACTS.map((f) => (
+                <div key={f.label} className="flex max-w-[11.5rem] flex-col border border-hairline bg-fg/[0.04] px-4 py-3 backdrop-blur-md">
+                  <dt className="order-2 mt-1 text-[0.6875rem] font-medium uppercase leading-snug tracking-[0.12em] text-on-dark-muted">{f.label}</dt>
+                  <dd className="text-2xl font-bold text-accent">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
             <div className="flex items-center gap-3 border border-hairline bg-fg/[0.04] py-2 pl-2 pr-4 backdrop-blur-md">
               {/* Decorative: the text beside it already says "As seen on FOX Carolina". */}
               <Image src={foxBadge} alt="" height={48} sizes="58px" className="h-12 w-auto" />
@@ -116,43 +116,36 @@ export function Hero() {
                 <span className="font-bold text-fg">FOX Carolina</span>
               </span>
             </div>
-            <ul aria-label="Our values" className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-bold uppercase tracking-[0.18em] text-on-dark-muted">
-              {VALUES.map((v, i) => (
-                <li key={v} className="flex items-center gap-4">
-                  {i > 0 && <span aria-hidden className="size-1 rotate-45 bg-gold" />}
-                  {v}
-                </li>
-              ))}
-            </ul>
           </div>
+
         </div>
       </Container>
 
       {/* HUD strip: live network locations + scroll cue (desktop). */}
-      <div className="hidden animate-fade-up border-t border-hairline md:block" style={delay(afterWords + 0.5)}>
+      <div className="hidden animate-fade-up border-t border-hairline bg-page/60 backdrop-blur-md md:block" style={delay(afterWords + 0.55)}>
         <AnimateWhenVisible>
-        <Container size="wide" className="flex h-16 items-center justify-between text-xs font-medium uppercase tracking-[0.18em]">
-          <div className="flex items-center gap-8">
-            <span className="text-on-dark-muted">Network</span>
-            <ul className="flex items-center gap-7 text-fg">
-              {NETWORK.map((n, i) => (
-                <li key={n} className="flex items-center gap-2.5">
-                  <span aria-hidden className="relative flex size-2">
-                    <span className="decor-anim absolute inset-0 animate-pulse-dot rounded-full bg-gold" style={delay(i * 0.6)} />
-                    <span className="relative size-2 rounded-full bg-gold shadow-[0_0_8px_rgb(234_166_7/0.9)]" />
-                  </span>
-                  {n}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <a href="#after-hero" className="group/scroll flex items-center gap-3 text-on-dark hover:text-accent">
-            Scroll
-            <span aria-hidden className="relative h-8 w-px overflow-hidden bg-fg/15">
-              <span className="decor-anim absolute inset-0 animate-scroll-cue bg-gold" />
-            </span>
-          </a>
-        </Container>
+          <Container size="wide" className="flex h-16 items-center justify-between text-xs font-medium uppercase tracking-[0.18em]">
+            <div className="flex items-center gap-8">
+              <span className="text-on-dark-muted">Network</span>
+              <ul className="flex items-center gap-7 text-fg">
+                {NETWORK.map((n, i) => (
+                  <li key={n} className="flex items-center gap-2.5">
+                    <span aria-hidden className="relative flex size-2">
+                      <span className="decor-anim absolute inset-0 animate-pulse-dot rounded-full bg-gold" style={delay(i * 0.6)} />
+                      <span className="relative size-2 rounded-full bg-gold shadow-[0_0_8px_rgb(234_166_7/0.9)]" />
+                    </span>
+                    {n}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <a href="#after-hero" className="group/scroll flex items-center gap-3 text-on-dark hover:text-accent">
+              Scroll
+              <span aria-hidden className="relative h-8 w-px overflow-hidden bg-fg/15">
+                <span className="decor-anim absolute inset-0 animate-scroll-cue bg-gold" />
+              </span>
+            </a>
+          </Container>
         </AnimateWhenVisible>
       </div>
     </section>
