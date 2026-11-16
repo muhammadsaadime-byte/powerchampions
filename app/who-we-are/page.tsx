@@ -47,20 +47,20 @@ function PersonCard({ p, i }: { p: Person; i: number }) {
             src={p.photo}
             alt=""
             fill
-            sizes="(min-width: 1024px) 20vw, (min-width: 640px) 45vw, 90vw"
+            sizes="(min-width: 1024px) 20vw, (min-width: 768px) 30vw, 45vw"
             quality={70}
             className={cn("object-cover object-top grayscale transition-[filter,transform] duration-700 group-hover/card:scale-[1.03] group-hover/card:grayscale-0", p.crop)}
           />
           <span aria-hidden className="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-gold to-orange transition-transform duration-700 ease-out-expo group-hover/card:scale-x-100" />
         </div>
-        <h3 id={`person-${i}`} className="mt-5 text-lg font-bold text-fg">
+        <h3 id={`person-${i}`} className="mt-4 text-base font-bold leading-snug text-fg sm:mt-5 sm:text-lg">
           {p.name}
         </h3>
         {p.title && <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-accent">{p.title}</p>}
         {text && (
           // Bios are long; tucked behind a native disclosure so the grid stays scannable.
           <details className="group/bio mt-4 border-t border-hairline pt-3">
-            <summary className="flex cursor-pointer list-none items-center justify-between text-xs font-bold uppercase tracking-[0.14em] text-fg hover:text-accent [&::-webkit-details-marker]:hidden">
+            <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-xs font-bold uppercase tracking-[0.14em] text-fg hover:text-accent [&::-webkit-details-marker]:hidden">
               Read bio
               <span aria-hidden className="text-accent transition-transform duration-300 group-open/bio:rotate-45">+</span>
             </summary>
@@ -152,7 +152,7 @@ export default function WhoWeArePage() {
         <RevealOnScroll>
           <SectionHeading id="team-title" eyebrow="Our team" title="The PowerChampions Leadership Team" intro={<Markdown md={leadershipIntro} />} className="max-w-4xl" />
         </RevealOnScroll>
-        <RevealGroup as="ul" stagger={0.06} className="mt-14 grid items-start gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <RevealGroup as="ul" stagger={0.06} className="mt-10 grid grid-cols-2 items-start gap-3 sm:mt-14 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
           {LEADERSHIP.map((p, i) => (
             <PersonCard key={p.name} p={p} i={i} />
           ))}
@@ -163,7 +163,7 @@ export default function WhoWeArePage() {
         <RevealOnScroll>
           <SectionHeading id="advisory-title" eyebrow="Guidance & accountability" title="PowerChampions Advisory Board" intro={advisoryIntro} className="max-w-4xl" />
         </RevealOnScroll>
-        <RevealGroup as="ul" stagger={0.06} className="mt-14 grid items-start gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <RevealGroup as="ul" stagger={0.06} className="mt-10 grid grid-cols-2 items-start gap-3 sm:mt-14 sm:gap-5 md:grid-cols-3 lg:grid-cols-5">
           {ADVISORY.map((p, i) => (
             <PersonCard key={p.name} p={p} i={LEADERSHIP.length + i} />
           ))}

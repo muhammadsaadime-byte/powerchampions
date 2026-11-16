@@ -88,13 +88,13 @@ export function ServiceHero({
       {/* Ambient glow where the 3D scene sits, so the hero already reads well before three.js loads. */}
       <div
         aria-hidden
-        className="absolute right-[-15%] top-[8svh] -z-20 size-[90vmin] rounded-full bg-[radial-gradient(closest-side,rgb(234_166_7/0.16),rgb(245_117_0/0.05)_55%,transparent)] lg:right-[2%]"
+        className="absolute right-[-15%] top-[8svh] -z-20 size-[90vmin] rounded-full bg-[radial-gradient(closest-side,rgb(234_166_7/0.16),rgb(245_117_0/0.05)_55%,transparent)] xl:right-[2%]"
       />
-      <PowerScene variant={scene} className="absolute inset-0 -z-10 opacity-60 lg:left-[38%] lg:opacity-100" />
+      <PowerScene variant={scene} className="absolute inset-0 -z-10 hidden xl:left-[38%] xl:block" />
       {/* Legibility: the copy column always sits on solid-enough ink. */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(16_16_16/0.35),rgb(16_16_16/0.7)_60%,#101010)] lg:bg-[linear-gradient(90deg,#101010_0%,rgb(16_16_16/0.92)_32%,rgb(16_16_16/0.2)_62%,transparent_80%),linear-gradient(180deg,transparent_70%,#101010)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(16_16_16/0.35),rgb(16_16_16/0.7)_60%,#101010)] xl:bg-[linear-gradient(90deg,#101010_0%,rgb(16_16_16/0.92)_32%,rgb(16_16_16/0.2)_62%,transparent_80%),linear-gradient(180deg,transparent_70%,#101010)]"
       />
 
       <Container size="wide" className="flex flex-1 flex-col">
@@ -104,7 +104,7 @@ export function ServiceHero({
               <li key={c.label} className="flex items-center gap-2">
                 {i > 0 && <span aria-hidden className="text-accent">/</span>}
                 {i < trail.length - 1 ? (
-                  <Link href={c.href} className="hover:text-accent">
+                  <Link href={c.href} className="-my-3 inline-block py-3 hover:text-accent">
                     {c.label}
                   </Link>
                 ) : (
@@ -134,8 +134,15 @@ export function ServiceHero({
         </div>
 
         {/* Spec readout pinned to the bottom of the hero; the spacer keeps a minimum gap above it on short screens. */}
-        <div aria-hidden className="min-h-12 flex-1 sm:min-h-16" />
-        <dl className="mb-10 grid grid-cols-2 gap-px overflow-hidden border border-hairline bg-hairline pt-px backdrop-blur-md sm:mb-14 lg:grid-cols-4">
+        {/* Below xl the scene gets its own framed stage in the flow (behind-the-text only works on wide screens). */}
+        <div className="relative isolate mt-10 h-64 overflow-hidden border border-hairline bg-[radial-gradient(ellipse_at_50%_65%,rgb(234_166_7/0.14),transparent_65%),linear-gradient(180deg,#151515,#0c0c0c)] sm:h-80 md:h-96 xl:hidden">
+          <PowerScene variant={scene} className="absolute inset-0" />
+          {["left-3 top-3 border-l border-t", "right-3 top-3 border-r border-t", "bottom-3 left-3 border-b border-l", "bottom-3 right-3 border-b border-r"].map((pos) => (
+            <span key={pos} aria-hidden className={`absolute size-5 border-gold/70 ${pos}`} />
+          ))}
+        </div>
+        <div aria-hidden className="hidden min-h-16 flex-1 xl:block" />
+        <dl className="mb-10 mt-6 grid xl:mt-0 grid-cols-2 gap-px overflow-hidden border border-hairline bg-hairline pt-px backdrop-blur-md sm:mb-14 lg:grid-cols-4">
           {specs.map((s, i) => (
             <div key={s.label} className="flex animate-fade-up flex-col bg-page/80 p-5 sm:p-6" style={{ animationDelay: `${0.55 + i * 0.07}s` }}>
               <dt className="order-2 mt-2 text-xs uppercase tracking-[0.14em] text-on-dark-muted">{s.label}</dt>

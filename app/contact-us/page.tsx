@@ -123,7 +123,7 @@ export default function ContactPage() {
                         <p className="mt-2 text-sm leading-relaxed text-on-dark">{address}</p>
                         <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold">
                           {phone && (
-                            <a href={`tel:${phone}`} className="text-fg underline-offset-4 hover:text-accent hover:underline">
+                            <a href={`tel:${phone}`} className="-my-3 inline-block py-3 text-fg underline-offset-4 hover:text-accent hover:underline">
                               {phone.replace("+1-", "").replace(/-/g, ".")}
                             </a>
                           )}
@@ -131,11 +131,11 @@ export default function ContactPage() {
                             href={mapsUrl(`${l.name}, ${address}`)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-fg underline-offset-4 hover:text-accent hover:underline"
+                            className="-my-3 inline-block py-3 text-fg underline-offset-4 hover:text-accent hover:underline"
                           >
                             Directions ↗<span className="sr-only"> to {l.name} (opens in a new tab)</span>
                           </a>
-                          <a href={l.url} target="_blank" rel="noopener noreferrer" className="text-fg underline-offset-4 hover:text-accent hover:underline">
+                          <a href={l.url} target="_blank" rel="noopener noreferrer" className="-my-3 inline-block py-3 text-fg underline-offset-4 hover:text-accent hover:underline">
                             Website ↗<span className="sr-only"> for {l.name} (opens in a new tab)</span>
                           </a>
                         </div>

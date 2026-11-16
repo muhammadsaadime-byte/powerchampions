@@ -85,7 +85,7 @@ export function Network() {
             <h3 className="text-h3 font-bold">The PowerChampions Leadership Team</h3>
             <Link
               href="/who-we-are#PowerChampions-Team"
-              className="text-sm font-bold uppercase tracking-[0.12em] text-fg underline-offset-4 hover:text-accent hover:underline"
+              className="inline-flex min-h-11 items-center text-sm font-bold uppercase tracking-[0.12em] text-fg underline-offset-4 hover:text-accent hover:underline"
             >
               Full team &amp; advisory board →
             </Link>

@@ -30,15 +30,15 @@ export function GeneratorShowcase() {
   return (
     <section aria-labelledby="generator-title" data-scheme="dark" className="cv-auto relative isolate overflow-hidden border-y border-hairline bg-page py-20 sm:py-24 lg:py-28">
       <GridBackground fade="center" glow={false} />
-      <div className="mx-auto grid w-full max-w-[1520px] gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:items-center lg:gap-14 lg:px-8">
+      <div className="mx-auto grid w-full max-w-[1520px] gap-12 px-4 sm:px-6 lg:px-8 xl:grid-cols-12 xl:items-center xl:gap-14">
         {/* Stage */}
-        <RevealOnScroll className="lg:col-span-7">
-          <div className="relative isolate aspect-[4/3] overflow-hidden border border-hairline bg-[radial-gradient(ellipse_at_50%_62%,rgb(234_166_7/0.13),transparent_62%),linear-gradient(180deg,#151515,#0c0c0c)] sm:aspect-[16/11]">
+        <RevealOnScroll className="xl:col-span-7">
+          <div className="relative isolate aspect-square overflow-hidden border border-hairline bg-[radial-gradient(ellipse_at_50%_62%,rgb(234_166_7/0.13),transparent_62%),linear-gradient(180deg,#151515,#0c0c0c)] sm:aspect-[16/11]">
             <Image
               src={fallbackImg}
               alt=""
               fill
-              sizes="(min-width: 1024px) 58vw, 100vw"
+              sizes="(min-width: 1280px) 58vw, 100vw"
               quality={60}
               className="pc-scene-fallback -z-10 object-cover opacity-45"
             />
@@ -47,7 +47,7 @@ export function GeneratorShowcase() {
             <div className="absolute left-5 top-5 flex items-center gap-3 sm:left-7 sm:top-7">
               <Image src={logo} alt="PowerChampions" className="h-9 w-auto sm:h-11" />
             </div>
-            <p aria-hidden className="absolute right-5 top-6 text-xs font-bold uppercase tracking-[0.2em] text-on-dark-muted sm:right-7 sm:top-8">
+            <p aria-hidden className="absolute right-5 top-6 hidden text-xs font-bold uppercase tracking-[0.2em] text-on-dark-muted sm:right-7 sm:top-8 sm:block">
               Generator set · 480 V / 60 Hz
             </p>
             {["left-3 top-3 border-l border-t", "right-3 top-3 border-r border-t", "bottom-3 left-3 border-b border-l", "bottom-3 right-3 border-b border-r"].map((pos) => (
@@ -56,7 +56,7 @@ export function GeneratorShowcase() {
             <dl className="absolute inset-x-0 bottom-0 grid grid-cols-3 gap-px border-t border-hairline bg-hairline">
               {SPECS.map((s) => (
                 <div key={s.label} className="flex flex-col bg-page/85 px-3 py-3 backdrop-blur-md sm:px-5 sm:py-4">
-                  <dt className="order-2 mt-1 text-[0.625rem] font-medium uppercase leading-snug tracking-[0.12em] text-on-dark-muted sm:text-xs">{s.label}</dt>
+                  <dt className="order-2 mt-1 text-[0.6875rem] font-medium uppercase leading-snug tracking-[0.08em] text-on-dark-muted sm:text-xs">{s.label}</dt>
                   <dd className="text-sm font-bold text-accent sm:text-xl">{s.value}</dd>
                 </div>
               ))}
@@ -65,7 +65,7 @@ export function GeneratorShowcase() {
         </RevealOnScroll>
 
         {/* Copy */}
-        <div className="lg:col-span-5">
+        <div className="xl:col-span-5">
           <RevealOnScroll>
             <p className="mb-5 inline-flex items-center gap-3 text-eyebrow font-bold uppercase text-accent">
               <span aria-hidden className="h-px w-10 bg-gradient-to-r from-gold to-orange" />

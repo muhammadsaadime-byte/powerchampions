@@ -87,7 +87,7 @@ export function Services() {
             key={s.href}
             href={s.href}
             data-scheme="dark"
-            className="group/svc relative isolate flex bg-page min-h-[34rem] flex-col justify-end overflow-hidden border border-hairline p-6 transition-[flex-grow,border-color,box-shadow] duration-700 ease-out-expo hover:border-gold/50 hover:shadow-glow-soft focus-visible:border-gold sm:p-10 lg:min-h-0 lg:flex-1 lg:hover:flex-[1.55] lg:focus-visible:flex-[1.55]"
+            className="group/svc relative isolate flex bg-page min-h-[34rem] flex-col justify-end overflow-hidden border border-hairline p-6 pt-24 sm:pt-28 transition-[flex-grow,border-color,box-shadow] duration-700 ease-out-expo hover:border-gold/50 hover:shadow-glow-soft focus-visible:border-gold sm:p-10 lg:min-h-0 lg:flex-1 lg:hover:flex-[1.55] lg:focus-visible:flex-[1.55]"
           >
             <Image
               src={s.image}

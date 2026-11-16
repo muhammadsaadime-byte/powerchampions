@@ -48,11 +48,11 @@ export function Hero() {
       <div aria-hidden className="pc-scene-fallback pointer-events-none absolute inset-x-0 top-0 -z-10 h-svh">
         <EnergyLines intensity={0.9} />
       </div>
-      <PowerScene variant="city" className="absolute inset-0 -z-10 opacity-55 md:opacity-100 lg:left-[24%]" />
+      <PowerScene variant="city" className="absolute inset-0 -z-10 hidden xl:left-[24%] xl:block" />
       {/* Legibility: solid ink under the copy, fading out towards the city; soft fade into the next section. */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(16_16_16/0.75),rgb(16_16_16/0.55)_55%,rgb(16_16_16/0.85))] md:bg-[linear-gradient(90deg,#101010_0%,rgb(16_16_16/0.94)_30%,rgb(16_16_16/0.55)_52%,transparent_72%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(16_16_16/0.75),rgb(16_16_16/0.55)_55%,rgb(16_16_16/0.85))] xl:bg-[linear-gradient(90deg,#101010_0%,rgb(16_16_16/0.94)_30%,rgb(16_16_16/0.55)_52%,transparent_72%)]"
       />
       <div aria-hidden className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-page" />
       <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-page to-transparent" />
@@ -118,6 +118,14 @@ export function Hero() {
             </div>
           </div>
 
+
+          {/* Below xl the scene gets its own framed stage in the flow (behind-the-text only works on wide screens). */}
+          <div className="relative isolate mt-10 h-64 overflow-hidden border border-hairline bg-[radial-gradient(ellipse_at_50%_65%,rgb(234_166_7/0.14),transparent_65%),linear-gradient(180deg,#151515,#0c0c0c)] sm:h-80 md:h-96 xl:hidden">
+            <PowerScene variant="city" className="absolute inset-0" />
+            {["left-3 top-3 border-l border-t", "right-3 top-3 border-r border-t", "bottom-3 left-3 border-b border-l", "bottom-3 right-3 border-b border-r"].map((pos) => (
+              <span key={pos} aria-hidden className={`absolute size-5 border-gold/70 ${pos}`} />
+            ))}
+          </div>
         </div>
       </Container>
 

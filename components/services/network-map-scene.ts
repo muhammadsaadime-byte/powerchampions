@@ -203,7 +203,7 @@ export function buildNetworkMap(dot: THREE.Texture, host: HTMLElement) {
     // Low three-quarter view from the south-east, looking across the network to the rest of the country.
     const sway = Math.sin(t * 0.14) * 0.1 + px * 0.14;
     camera.position.set(hub.x + 1.2 + Math.sin(sway) * 3.5, 9.2 - py * 0.9, hub.z + 11.5);
-    camera.lookAt(hub.x - 2.3, 0, hub.z - 0.4);
+    camera.lookAt(hub.x - 1.7, 0, hub.z - 0.4);
   };
 
   return {

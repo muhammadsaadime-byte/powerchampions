@@ -78,7 +78,7 @@ export function PageHero({ eyebrow, title, intro, image, imageAlt = "", crumbs, 
               <li key={c.href} className="flex items-center gap-2">
                 {i > 0 && <span aria-hidden className="text-accent">/</span>}
                 {i < trail.length - 1 ? (
-                  <Link href={c.href} className="hover:text-accent">
+                  <Link href={c.href} className="-my-3 inline-block py-3 hover:text-accent">
                     {c.label}
                   </Link>
                 ) : (

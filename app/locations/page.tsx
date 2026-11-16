@@ -281,11 +281,11 @@ export default function LocationsPage() {
                           </dt>
                           <dd className="mt-2 text-fg">
                             {phone ? (
-                              <a href={`tel:${phone}`} className="font-bold underline-offset-4 hover:text-accent hover:underline">
+                              <a href={`tel:${phone}`} className="-my-3 inline-block py-3 font-bold underline-offset-4 hover:text-accent hover:underline">
                                 {prettyPhone(phone)}
                               </a>
                             ) : (
-                              <a href={l.url} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:text-accent hover:underline">
+                              <a href={l.url} target="_blank" rel="noopener noreferrer" className="-my-3 inline-block py-3 underline-offset-4 hover:text-accent hover:underline">
                                 Via the location website ↗<span className="sr-only"> (opens in a new tab)</span>
                               </a>
                             )}

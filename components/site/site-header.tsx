@@ -33,7 +33,7 @@ function Underline({ active }: { active: boolean }) {
   );
 }
 
-const linkText = "relative whitespace-nowrap py-1 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-fg/85 transition-colors duration-300 hover:text-fg";
+const linkText = "relative whitespace-nowrap py-1 text-xs font-medium uppercase tracking-[0.05em] 2xl:text-[0.8125rem] 2xl:tracking-[0.1em] text-fg/85 transition-colors duration-300 hover:text-fg";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -120,13 +120,13 @@ export function SiteHeader() {
           Skip to content
         </a>
 
-        <div className="mx-auto flex h-[var(--pc-header-h)] w-full max-w-[1520px] items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-[var(--pc-header-h)] w-full max-w-[1520px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 2xl:gap-6">
           <Link href="/" aria-label="PowerChampions home" className="shrink-0">
             <Image src={logo} alt="PowerChampions" priority className="h-11 w-auto sm:h-12 2xl:h-14" />
           </Link>
 
           <nav ref={navRef} aria-label="Main" className="hidden xl:block">
-            <ul className="flex items-center gap-7 2xl:gap-9">
+            <ul className="flex items-center gap-4 min-[1400px]:gap-6 2xl:gap-9">
               {NAV.map((item) => {
                 const active = isItemActive(pathname, item);
                 const isOpen = open === item.label;

@@ -65,7 +65,7 @@ export function SiteFooter() {
       <Container size="wide">
         <div className="grid gap-12 lg:grid-cols-12">
           {/* Brand */}
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-12 xl:col-span-4">
             <Link href="/" aria-label="PowerChampions home" className="inline-block">
               <Image src={logo} alt="PowerChampions" className="h-16 w-auto sm:h-20" />
             </Link>
@@ -85,7 +85,7 @@ export function SiteFooter() {
           </div>
 
           {/* Link columns */}
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-5">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-7 xl:col-span-5">
             {COLUMNS.map((col) => (
               <div key={col.title}>
                 <p className={heading}>{col.title}</p>
@@ -103,7 +103,7 @@ export function SiteFooter() {
           </nav>
 
           {/* Locations + social */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-5 xl:col-span-3">
             <p className={heading}>Service Locations</p>
             <ul className="space-y-5">
               {DEPOTS.map((d) => (

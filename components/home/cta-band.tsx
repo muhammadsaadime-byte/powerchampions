@@ -40,8 +40,8 @@ export function CtaBand({
         <path fill="currentColor" d="M78 0 8 112h44L34 200l78-124H66L78 0Z" />
       </svg>
 
-      <Container size="wide" className="grid gap-10 lg:grid-cols-12 lg:items-end">
-        <RevealOnScroll className="lg:col-span-8">
+      <Container size="wide" className="grid gap-10 xl:grid-cols-12 xl:items-end">
+        <RevealOnScroll className="xl:col-span-8">
           <p className="mb-5 inline-flex items-center gap-3 text-eyebrow font-bold uppercase">
             <span aria-hidden className="h-px w-10 bg-page" />
             {eyebrow}
@@ -51,7 +51,7 @@ export function CtaBand({
           </h2>
           {text && <p className="mt-5 max-w-3xl text-lead font-medium text-ink/80">{text}</p>}
         </RevealOnScroll>
-        <RevealOnScroll delay={0.15} className="flex flex-wrap gap-4 lg:col-span-4 lg:justify-end">
+        <RevealOnScroll delay={0.15} className="flex flex-wrap gap-4 xl:col-span-4 xl:justify-end">
           <Button href={primary.href} variant="ink" size="lg" arrow>
             {primary.label}
           </Button>

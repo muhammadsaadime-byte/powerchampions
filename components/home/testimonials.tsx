@@ -56,8 +56,8 @@ export function Testimonials() {
         “
       </span>
       <Container size="wide">
-        <div className="grid gap-12 lg:grid-cols-12">
-          <RevealOnScroll className="lg:col-span-4">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          <RevealOnScroll className="min-w-0 lg:col-span-4">
             <SectionHeading
               id="testimonials-title"
               eyebrow="Testimonials"
@@ -66,7 +66,7 @@ export function Testimonials() {
             />
           </RevealOnScroll>
 
-          <RevealOnScroll delay={0.1} className="lg:col-span-8">
+          <RevealOnScroll delay={0.1} className="min-w-0 lg:col-span-8">
             <div
               role="region"
               aria-roledescription="carousel"
@@ -77,7 +77,7 @@ export function Testimonials() {
               }}
               className="border border-hairline bg-fg/[0.03] p-6 sm:p-10 lg:p-14"
             >
-              <div className="grid" aria-live="polite">
+              <div className="grid grid-cols-1" aria-live="polite">
                 {QUOTES.map((q, i) => {
                   const active = i === index;
                   return (
@@ -90,7 +90,7 @@ export function Testimonials() {
                       aria-hidden={!active}
                       inert={!active}
                       className={cn(
-                        "col-start-1 row-start-1 transition-[opacity,transform] duration-700 ease-out-expo",
+                        "col-start-1 row-start-1 min-w-0 transition-[opacity,transform] duration-700 ease-out-expo",
                         active ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-6 opacity-0",
                       )}
                     >
@@ -117,8 +117,8 @@ export function Testimonials() {
                 })}
               </div>
 
-              <div className="mt-10 flex items-center justify-between gap-6 border-t border-hairline pt-6">
-                <div className="flex items-center gap-2" role="group" aria-label="Choose a testimonial">
+              <div className="mt-10 flex items-center justify-between gap-3 border-t border-hairline pt-6">
+                <div className="flex items-center gap-1 sm:gap-2" role="group" aria-label="Choose a testimonial">
                   {QUOTES.map((q, i) => (
                     <button
                       key={q.name}
@@ -137,7 +137,7 @@ export function Testimonials() {
                       />
                     </button>
                   ))}
-                  <span className="ml-3 text-xs font-bold tracking-[0.2em] text-on-dark-muted" aria-hidden>
+                  <span className="ml-2 whitespace-nowrap text-xs font-bold tracking-[0.2em] text-on-dark-muted sm:ml-3" aria-hidden>
                     0{index + 1} / 0{QUOTES.length}
                   </span>
                 </div>

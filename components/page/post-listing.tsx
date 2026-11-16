@@ -70,7 +70,7 @@ function Card({ p, featured = false }: { p: Post; featured?: boolean }) {
             href={`https://www.youtube.com/watch?v=${p.youtubeId}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative z-10 mt-3 self-start text-xs font-medium uppercase tracking-[0.14em] text-on-dark-muted underline-offset-4 hover:text-accent hover:underline"
+            className="relative z-10 -mb-3 self-start py-3 text-xs font-medium uppercase tracking-[0.14em] text-on-dark-muted underline-offset-4 hover:text-accent hover:underline"
           >
             Open on YouTube ↗<span className="sr-only"> (opens in a new tab)</span>
           </a>
