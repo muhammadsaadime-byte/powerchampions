@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 
-export type SceneVariant = "core" | "racks" | "field" | "map" | "generator";
+export type SceneVariant = "backup" | "racks" | "field" | "map" | "generator";
 
 /**
  * Decorative three.js scene (service-page heroes, homepage hero and network map).

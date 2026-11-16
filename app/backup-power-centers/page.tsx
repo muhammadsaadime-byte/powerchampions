@@ -19,7 +19,7 @@ export default function BackupPowerCentersPage() {
   return (
     <main id="main" tabIndex={-1} className="outline-none">
       <ServiceHero
-        scene="core"
+        scene="backup"
         crumbs={[
           { label: "Generator Services", href: "/backup-power-centers" },
           { label: "Backup Power Centers", href: "/backup-power-centers" },
