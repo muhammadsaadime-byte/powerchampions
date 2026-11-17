@@ -12,6 +12,8 @@ const legacy: Array<[string, string]> = [
   ["/:kind(blogs|news|podcast)/tag/:tag*", "/:kind"],
   ["/:kind(blogs|news|podcast)/author/:author*", "/:kind"],
   ["/:kind(blogs|news|podcast)/page/:n*", "/:kind"],
+  // This announcement was a blog post on HubSpot; it now lives in the newsroom.
+  ["/blogs/powerchampions-at-nfmt-east-booth-704-charlotte", "/news/powerchampions-at-nfmt-east-booth-704-charlotte"],
   // HubSpot site search.
   ["/hs-search-results", "/"],
 ];

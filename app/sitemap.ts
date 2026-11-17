@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { NEWS } from "@/lib/news";
 import { SITE_URL } from "@/lib/site";
 
 const ROUTES: Array<[string, number]> = [
@@ -18,5 +19,8 @@ const ROUTES: Array<[string, number]> = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return ROUTES.map(([path, priority]) => ({ url: `${SITE_URL}${path === "/" ? "" : path}`, priority }));
+  return [
+    ...ROUTES.map(([path, priority]) => ({ url: `${SITE_URL}${path === "/" ? "" : path}`, priority })),
+    ...NEWS.map((p) => ({ url: `${SITE_URL}/news/${p.slug}`, lastModified: p.date, priority: 0.5 })),
+  ];
 }

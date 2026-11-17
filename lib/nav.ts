@@ -28,15 +28,8 @@ export const NAV: NavItem[] = [
     ],
   },
   { kind: "link", label: "Market-Partners", href: "/partners" },
-  {
-    kind: "dropdown",
-    label: "Resources",
-    children: [
-      { label: "News", href: "/news", description: "Announcements, partnerships and press releases." },
-      { label: "Blogs", href: "/blogs", description: "Leadership, the trades and the future of critical power." },
-      { label: "Podcast", href: "/podcast", description: "Powered to Win — conversations from across the industry." },
-    ],
-  },
+  // News replaces the old Resources dropdown (News / Blogs / Podcast). /blogs and /podcast still resolve but are not in the menus.
+  { kind: "link", label: "News", href: "/news" },
   { kind: "link", label: "Careers", href: "/careers" },
   {
     kind: "mega",

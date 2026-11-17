@@ -19,6 +19,7 @@ const COLUMNS = [
       { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact-us" },
       { label: "Locations", href: "/locations" },
+      { label: "News", href: "/news" },
     ],
   },
   {
@@ -26,14 +27,6 @@ const COLUMNS = [
     links: [
       { label: "Backup Power Centers", href: "/backup-power-centers" },
       { label: "Data Center Solutions", href: "/data-center-solutions" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "News", href: "/news" },
-      { label: "Blogs", href: "/blogs" },
-      { label: "Podcast", href: "/podcast" },
     ],
   },
 ];
@@ -85,7 +78,7 @@ export function SiteFooter() {
           </div>
 
           {/* Link columns */}
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-7 xl:col-span-5">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-10 lg:col-span-7 xl:col-span-5">
             {COLUMNS.map((col) => (
               <div key={col.title}>
                 <p className={heading}>{col.title}</p>

@@ -5,5 +5,5 @@ export const size = ogSize;
 export const contentType = ogContentType;
 
 export default function Image() {
-  return renderOg("News and Resources", "Resources");
+  return renderOg("News and Resources", "Newsroom");
 }
